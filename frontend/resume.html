@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Resume – Edu2Job</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content">
+      <div class="page-header">
+        <h1>📄 Upload Resume</h1>
+        <p>Upload your resume for enhanced profile analysis.</p>
+      </div>
+
+      <div class="glass-card" style="padding: 32px;">
+        <div class="upload-zone" id="uploadZone">
+          <div class="icon">📁</div>
+          <h3>Drag & drop your resume here</h3>
+          <p>or click to browse. Supported: PDF, DOC, DOCX, TXT (max 16 MB)</p>
+          <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt" style="display:none;" />
+        </div>
+
+        <div id="fileInfo" class="hidden" style="margin-top: 24px; padding: 16px; border-radius: var(--radius-md); background: rgba(255,255,255,0.03);">
+          <p style="font-weight: 600;" id="fileName"></p>
+          <p style="color: var(--text-secondary); font-size: 0.85rem;" id="fileSize"></p>
+        </div>
+
+        <button id="uploadBtn" class="btn btn-primary hidden" style="margin-top: 20px;" onclick="uploadResume()">
+          Upload Resume
+        </button>
+
+        <div id="uploadStatus" class="hidden" style="margin-top: 20px; text-align: center;">
+          <div class="spinner"></div>
+          <p style="color: var(--text-secondary);">Uploading...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    requireAuth();
+    renderSidebar('resume');
+
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('resumeFile');
+    let selectedFile = null;
+
+    uploadZone.addEventListener('click', () => fileInput.click());
+    uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent-purple)'; });
+    uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.style.borderColor = '';
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+    function handleFile(file) {
+      selectedFile = file;
+      document.getElementById('fileName').textContent = `📎 ${file.name}`;
+      document.getElementById('fileSize').textContent = `Size: ${(file.size / 1024).toFixed(1)} KB`;
+      document.getElementById('fileInfo').classList.remove('hidden');
+      document.getElementById('uploadBtn').classList.remove('hidden');
+    }
+
+    async function uploadResume() {
+      if (!selectedFile) return;
+      document.getElementById('uploadBtn').classList.add('hidden');
+      document.getElementById('uploadStatus').classList.remove('hidden');
+
+      const formData = new FormData();
+      formData.append('resume', selectedFile);
+
+      try {
+        const token = getToken();
+        const res = await fetch(API_BASE + '/resume/upload', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData,
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast('Resume uploaded successfully!', 'success');
+        } else {
+          showToast(data.error || 'Upload failed', 'error');
+        }
+      } catch (err) {
+        showToast(err.message || 'Upload error', 'error');
+      } finally {
+        document.getElementById('uploadStatus').classList.add('hidden');
+        document.getElementById('uploadBtn').classList.remove('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

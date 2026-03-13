@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In – Edu2Job</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-icon">
+        <span class="material-symbols-outlined">auto_awesome</span>
+      </div>
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Log in to Edu2Job</p>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <div class="input-icon">
+            <span class="material-symbols-outlined">mail</span>
+            <input type="email" id="email" placeholder="name@edu2job.com" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-icon">
+            <span class="material-symbols-outlined">lock</span>
+            <input type="password" id="password" placeholder="••••••••" required />
+          </div>
+        </div>
+
+        <div class="form-check-row" style="margin-bottom: 20px;">
+          <div class="check-group">
+            <input type="checkbox" id="remember-me" />
+            <label for="remember-me">Remember me</label>
+          </div>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Sign in</button>
+      </form>
+
+      <p class="auth-link">Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      if (!email || !password) { showToast('Please fill in all fields', 'error'); return; }
+      try {
+        const res = await apiPost('/auth/login', { email, password });
+        if (res.token) {
+          localStorage.setItem('edu2job_token', res.token);
+          localStorage.setItem('edu2job_user', JSON.stringify(res.user));
+          showToast('Login successful!', 'success');
+          setTimeout(() => window.location.href = 'dashboard.html', 800);
+        } else {
+          showToast(res.error || 'Login failed', 'error');
+        }
+      } catch (err) { showToast(err.message || 'Network error', 'error'); }
+    });
+  </script>
+</body>
+</html>

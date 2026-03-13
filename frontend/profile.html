@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile & Resume – Edu2Job</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar light" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="main-header">
+        <h2>Profile &amp; Resume</h2>
+        <div class="header-actions">
+          <button class="notification-btn">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="notification-dot"></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div style="margin-bottom: 32px;">
+          <h3 style="font-size:1.5rem; font-weight:700; letter-spacing:-0.02em; color:var(--text-900); margin-bottom:4px;">Complete Your Profile</h3>
+          <p style="color: var(--text-500);">Update your student information and upload your latest resume to get matched with top opportunities.</p>
+        </div>
+
+        <div class="profile-grid">
+          <!-- Student Info Form -->
+          <div class="profile-card">
+            <h4>
+              <span class="material-symbols-outlined">account_circle</span>
+              Student Information Form
+            </h4>
+            <form id="profileForm" novalidate>
+              <div class="form-row" style="margin-bottom:20px;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="degree">Degree Program</label>
+                  <select id="degree">
+                    <option value="">Select Degree</option>
+                    <option value="B.Tech">B.Tech</option>
+                    <option value="M.Tech">M.Tech</option>
+                    <option value="B.Sc">B.Sc</option>
+                    <option value="M.Sc">M.Sc</option>
+                    <option value="BCA">BCA</option>
+                    <option value="MCA">MCA</option>
+                    <option value="B.E">B.E</option>
+                    <option value="MBA">MBA</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="gpa">Current GPA</label>
+                  <input type="number" id="gpa" placeholder="3.8" step="0.1" min="0" max="10" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Core Skills</label>
+                <div class="skill-tags-wrapper" id="skillsWrapper">
+                  <input type="text" id="skillInput" placeholder="Type and press enter..." />
+                </div>
+              </div>
+
+              <div class="form-row" style="margin-bottom:20px;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="experience">Years of Experience</label>
+                  <input type="number" id="experience" placeholder="2" min="0" max="30" />
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="certifications">Certifications</label>
+                  <input type="text" id="certifications" placeholder="AWS Cloud, PMP..." />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <span class="material-symbols-outlined" style="font-size:20px;">save</span>
+                Save Profile
+              </button>
+            </form>
+          </div>
+
+          <!-- Resume Upload -->
+          <div class="profile-card" style="height:fit-content;">
+            <h4>
+              <span class="material-symbols-outlined">description</span>
+              Resume Upload
+            </h4>
+            <p style="font-size:0.875rem; color:var(--text-500); margin-bottom:24px;">Upload your resume and we'll <strong style="color:var(--primary);">auto-extract</strong> your skills, degree, GPA & experience.</p>
+
+            <div class="upload-zone" id="uploadZone">
+              <div class="upload-icon-circle">
+                <span class="material-symbols-outlined" style="font-size:1.875rem;">cloud_upload</span>
+              </div>
+              <h5>Click to upload or drag and drop</h5>
+              <p>PDF, DOCX, or DOC (Max. 5MB)</p>
+              <button type="button" class="btn btn-outline" style="font-size:0.85rem; padding:8px 16px;">Browse Files</button>
+              <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt" style="display:none;" />
+            </div>
+
+            <div class="file-card" id="fileCard" style="display:none;">
+              <div class="file-info">
+                <div class="file-icon"><span class="material-symbols-outlined">picture_as_pdf</span></div>
+                <div>
+                  <p class="file-name" id="fileName"></p>
+                  <p class="file-meta" id="fileMeta"></p>
+                </div>
+              </div>
+              <button class="file-delete" onclick="removeFile()">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-full" id="uploadBtn" style="display:none;" onclick="uploadResume()">
+              <span class="material-symbols-outlined" style="font-size:20px;">upload_file</span>
+              Upload Resume
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    requireAuth();
+    renderSidebar('profile', 'light');
+
+    const user = getUser();
+    if (user) {
+      document.getElementById('degree').value = user.degree || '';
+      document.getElementById('gpa').value = user.gpa || '';
+      document.getElementById('experience').value = user.experience || '';
+      document.getElementById('certifications').value = user.certifications || '';
+      if (user.skills) {
+        user.skills.split(',').forEach(s => { if (s.trim()) addSkillTag(s.trim()); });
+      }
+    }
+
+    // Skill tags
+    const skillInput = document.getElementById('skillInput');
+    const skillsWrapper = document.getElementById('skillsWrapper');
+    let skills = user && user.skills ? user.skills.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+    skillInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = skillInput.value.trim();
+        if (val && !skills.includes(val)) { skills.push(val); addSkillTag(val); }
+        skillInput.value = '';
+      }
+    });
+
+    function addSkillTag(name) {
+      const span = document.createElement('span');
+      span.className = 'skill-tag';
+      span.innerHTML = `${name} <span class="material-symbols-outlined remove" onclick="removeSkill(this, '${name}')">close</span>`;
+      skillsWrapper.insertBefore(span, skillInput);
+    }
+
+    function removeSkill(el, name) {
+      skills = skills.filter(s => s !== name);
+      el.parentElement.remove();
+    }
+
+    // Profile save
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        degree: document.getElementById('degree').value,
+        gpa: parseFloat(document.getElementById('gpa').value) || 0,
+        experience: parseInt(document.getElementById('experience').value) || 0,
+        certifications: document.getElementById('certifications').value.trim(),
+        skills: skills.join(','),
+      };
+      try {
+        const res = await apiPost('/profile/update', data);
+        if (res.message) { updateStoredUser(data); showToast('Profile saved!', 'success'); }
+        else { showToast(res.error || 'Update failed', 'error'); }
+      } catch (err) { showToast(err.message, 'error'); }
+    });
+
+    // Resume upload
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('resumeFile');
+    let selectedFile = null;
+
+    uploadZone.addEventListener('click', () => {
+      fileInput.value = '';
+      fileInput.click();
+    });
+    uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.style.borderColor = 'var(--primary)'; });
+    uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
+    uploadZone.addEventListener('drop', (e) => { e.preventDefault(); uploadZone.style.borderColor=''; if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+    fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+    function handleFile(file) {
+      selectedFile = file;
+      document.getElementById('fileName').textContent = file.name;
+      document.getElementById('fileMeta').textContent = `${(file.size / (1024*1024)).toFixed(1)} MB • Selected`;
+      document.getElementById('fileCard').style.display = 'flex';
+      document.getElementById('uploadBtn').style.display = 'flex';
+    }
+
+    function removeFile() {
+      selectedFile = null;
+      document.getElementById('fileCard').style.display = 'none';
+      document.getElementById('uploadBtn').style.display = 'none';
+      document.getElementById('resumeFile').value = '';
+    }
+
+    async function uploadResume() {
+      if (!selectedFile) return;
+      const formData = new FormData();
+      formData.append('resume', selectedFile);
+      document.getElementById('uploadBtn').textContent = 'Uploading & Parsing...';
+      document.getElementById('uploadBtn').disabled = true;
+      try {
+        const token = getToken();
+        const res = await fetch(API_BASE + '/resume/upload', {
+          method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: formData,
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast('Resume uploaded & parsed!', 'success');
+
+          // Auto-fill form with parsed data
+          if (data.parsed) {
+            const p = data.parsed;
+            if (p.degree) document.getElementById('degree').value = p.degree;
+            if (p.gpa > 0) document.getElementById('gpa').value = p.gpa;
+            if (p.experience > 0) document.getElementById('experience').value = p.experience;
+            if (p.certifications) document.getElementById('certifications').value = p.certifications;
+
+            // Update skill tags
+            if (p.skills && p.skills.length) {
+              // Clear existing tags
+              document.querySelectorAll('.skill-tag').forEach(tag => tag.remove());
+              skills = [];
+              p.skills.forEach(s => {
+                if (!skills.includes(s)) { skills.push(s); addSkillTag(s); }
+              });
+            }
+
+            // Update stored user
+            updateStoredUser({
+              degree: p.degree || '',
+              gpa: p.gpa || 0,
+              experience: p.experience || 0,
+              certifications: p.certifications || '',
+              skills: (p.skills || []).join(','),
+            });
+
+            showToast(`Extracted: ${p.skills ? p.skills.length : 0} skills, degree: ${p.degree || 'N/A'}`, 'success');
+          }
+        } else {
+          showToast(data.error || 'Upload failed', 'error');
+        }
+      } catch (err) { showToast(err.message || 'Upload error', 'error'); }
+      document.getElementById('uploadBtn').innerHTML = '<span class="material-symbols-outlined" style="font-size:20px;">upload_file</span> Upload Resume';
+      document.getElementById('uploadBtn').disabled = false;
+      removeFile(); // Clear selection after upload
+    }
+  </script>
+</body>
+</html>

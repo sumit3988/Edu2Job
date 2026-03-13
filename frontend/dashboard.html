@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Edu2Job</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar dark" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="main-header">
+        <h2>Dashboard</h2>
+        <div class="header-actions">
+          <button class="notification-btn">
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <div class="header-avatar" id="headerAvatar"></div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-outlined">bar_chart</span></div>
+            <div>
+              <p class="stat-label">Total Predictions Made</p>
+              <p class="stat-value" id="statPredictions">0</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-outlined">work</span></div>
+            <div>
+              <p class="stat-label">Most Likely Career Role</p>
+              <p class="stat-value-sm" id="statTopRole">–</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-outlined">verified</span></div>
+            <div>
+              <p class="stat-label">Resume Status</p>
+              <div class="status-badge">
+                <p class="stat-value" id="statResume">Pending</p>
+                <span class="status-dot" id="statusDot" style="display:none;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty state / Content area -->
+        <div class="empty-state" id="emptyState">
+          <span class="material-symbols-outlined">analytics</span>
+          <p>Select an option from the sidebar to view details.</p>
+        </div>
+
+        <!-- Recent predictions (shown when available) -->
+        <div id="recentSection" class="hidden">
+          <div class="pred-form-card">
+            <h3>Recent Predictions</h3>
+            <div id="recentPredictions"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    requireAuth();
+    renderSidebar('dashboard', 'dark');
+
+    const user = getUser();
+    if (user) {
+      const predictions = JSON.parse(localStorage.getItem('edu2job_predictions') || '[]');
+      document.getElementById('statPredictions').textContent = predictions.length;
+
+      if (predictions.length > 0) {
+        document.getElementById('statTopRole').textContent = predictions[predictions.length - 1].role;
+        document.getElementById('emptyState').classList.add('hidden');
+        document.getElementById('recentSection').classList.remove('hidden');
+
+        let html = '';
+        predictions.slice(-5).reverse().forEach(p => {
+          html += `<div class="result-card"><div class="result-card-inner">
+            <div class="result-role-info">
+              <div class="result-role-icon"><span class="material-symbols-outlined">work</span></div>
+              <div><div class="result-role-name">${p.role}</div><div class="result-role-cat">${p.date}</div></div>
+            </div>
+            <div class="result-bar-container">
+              <div class="result-bar"><div class="result-bar-fill" style="width:${p.confidence}%"></div></div>
+              <span class="result-percent">${p.confidence}%</span>
+            </div>
+          </div></div>`;
+        });
+        document.getElementById('recentPredictions').innerHTML = html;
+      }
+    }
+  </script>
+</body>
+</html>

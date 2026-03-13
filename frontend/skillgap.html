@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Gap Analysis – Edu2Job</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar light" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="main-header">
+        <h2>Skill Gap Analysis</h2>
+        <div class="header-actions">
+          <div style="position:relative; display:none;" class="search-box" id="searchBox">
+            <span class="material-symbols-outlined" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-400); font-size:1rem;">search</span>
+            <input type="text" placeholder="Search skills..." style="padding:8px 16px 8px 36px; background:#f1f5f9; border:1px solid transparent; border-radius:var(--radius); font-size:0.875rem; width:256px; outline:none; font-family:var(--font);" id="searchInput" />
+          </div>
+          <button class="notification-btn">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="notification-dot" style="background:var(--red-500);"></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="page-content" style="max-width:1100px;">
+        <div class="skill-gap-header">
+          <h3>Skills to Improve</h3>
+          <p>We've identified key areas for your professional growth based on your desired role as a Senior Data Scientist. Master these skills to close your gap.</p>
+        </div>
+
+        <div class="skill-gap-grid" id="skillGapGrid">
+          <!-- Python -->
+          <div class="skill-gap-card">
+            <div class="skill-gap-card-header">
+              <div class="skill-gap-card-info">
+                <div class="skill-gap-icon blue"><span class="material-symbols-outlined">code</span></div>
+                <div>
+                  <div class="skill-gap-name">Python</div>
+                  <span class="skill-gap-cat">Core Requirement</span>
+                </div>
+              </div>
+              <span class="level-badge level-intermediate">Intermediate</span>
+            </div>
+            <div class="proficiency-section">
+              <div class="proficiency-row">
+                <span class="proficiency-label">Target Proficiency</span>
+                <span class="proficiency-value">65%</span>
+              </div>
+              <div class="proficiency-bar"><div class="proficiency-fill" style="width:65%"></div></div>
+            </div>
+            <div class="learning-box">
+              <p class="learning-label"><span class="material-symbols-outlined">menu_book</span> Recommended Learning</p>
+              <a href="#" class="learning-link">Advanced Data Structures & Algorithms in Python</a>
+              <p class="learning-time"><span class="material-symbols-outlined">schedule</span> Est. 12 hours</p>
+            </div>
+          </div>
+
+          <!-- Machine Learning -->
+          <div class="skill-gap-card">
+            <div class="skill-gap-card-header">
+              <div class="skill-gap-card-info">
+                <div class="skill-gap-icon purple"><span class="material-symbols-outlined">psychology</span></div>
+                <div>
+                  <div class="skill-gap-name">Machine Learning</div>
+                  <span class="skill-gap-cat">Core Requirement</span>
+                </div>
+              </div>
+              <span class="level-badge level-beginner">Beginner</span>
+            </div>
+            <div class="proficiency-section">
+              <div class="proficiency-row">
+                <span class="proficiency-label">Target Proficiency</span>
+                <span class="proficiency-value">30%</span>
+              </div>
+              <div class="proficiency-bar"><div class="proficiency-fill" style="width:30%"></div></div>
+            </div>
+            <div class="learning-box">
+              <p class="learning-label"><span class="material-symbols-outlined">menu_book</span> Recommended Learning</p>
+              <a href="#" class="learning-link">Machine Learning Fundamentals & Predictive Models</a>
+              <p class="learning-time"><span class="material-symbols-outlined">schedule</span> Est. 24 hours</p>
+            </div>
+          </div>
+
+          <!-- Data Engineering -->
+          <div class="skill-gap-card">
+            <div class="skill-gap-card-header">
+              <div class="skill-gap-card-info">
+                <div class="skill-gap-icon green"><span class="material-symbols-outlined">storage</span></div>
+                <div>
+                  <div class="skill-gap-name">Data Engineering</div>
+                  <span class="skill-gap-cat">Bonus Skill</span>
+                </div>
+              </div>
+              <span class="level-badge level-intermediate">Intermediate</span>
+            </div>
+            <div class="proficiency-section">
+              <div class="proficiency-row">
+                <span class="proficiency-label">Target Proficiency</span>
+                <span class="proficiency-value">55%</span>
+              </div>
+              <div class="proficiency-bar"><div class="proficiency-fill" style="width:55%"></div></div>
+            </div>
+            <div class="learning-box">
+              <p class="learning-label"><span class="material-symbols-outlined">menu_book</span> Recommended Learning</p>
+              <a href="#" class="learning-link">Building Scalable Data Pipelines with Apache Spark</a>
+              <p class="learning-time"><span class="material-symbols-outlined">schedule</span> Est. 18 hours</p>
+            </div>
+          </div>
+
+          <!-- Cloud Computing -->
+          <div class="skill-gap-card">
+            <div class="skill-gap-card-header">
+              <div class="skill-gap-card-info">
+                <div class="skill-gap-icon orange"><span class="material-symbols-outlined">cloud</span></div>
+                <div>
+                  <div class="skill-gap-name">Cloud Computing</div>
+                  <span class="skill-gap-cat">Industry Standard</span>
+                </div>
+              </div>
+              <span class="level-badge level-advanced">Advanced</span>
+            </div>
+            <div class="proficiency-section">
+              <div class="proficiency-row">
+                <span class="proficiency-label">Target Proficiency</span>
+                <span class="proficiency-value">85%</span>
+              </div>
+              <div class="proficiency-bar"><div class="proficiency-fill" style="width:85%"></div></div>
+            </div>
+            <div class="learning-box">
+              <p class="learning-label"><span class="material-symbols-outlined">menu_book</span> Recommended Learning</p>
+              <a href="#" class="learning-link">AWS Certified Machine Learning – Specialty Prep</a>
+              <p class="learning-time"><span class="material-symbols-outlined">schedule</span> Est. 8 hours</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    requireAuth();
+    renderSidebar('skillgap', 'light');
+    // Show search on desktop
+    if (window.innerWidth >= 768) document.getElementById('searchBox').style.display = 'block';
+  </script>
+</body>
+</html>
