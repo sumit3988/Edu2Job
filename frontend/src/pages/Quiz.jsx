@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { getUser, apiGet, apiPost } from '../utils/api';
+import './Quiz.css';
 
 const Quiz = () => {
   const [searchParams] = useSearchParams();

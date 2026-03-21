@@ -26,6 +26,9 @@ KNOWN_SKILLS = [
     "excel", "power bi", "tableau",
     "rest api", "graphql", "microservices", "ci/cd", "agile", "scrum",
     "figma", "photoshop", "illustrator",
+    "autocad", "solidworks", "ansys", "plc", "scada",
+    "management", "marketing", "finance", "communication", "sales",
+    "chemistry", "process engineering", "hysys", "thermodynamics"
 ]
 
 # ---------------------------------------------------------------------------
@@ -63,6 +66,7 @@ BRANCH_PATTERNS = [
     (r"\b(?:Software\s+Engineering|SE)\b", "Software Engineering"),
     (r"\b(?:Electronics)\b", "Electronics"),
     (r"\b(?:Business\s+Admin|BBA)\b", "BBA"),
+    (r"\b(?:Chemical\s+Engineering|ChemE|Chemical)\b", "Chemical"),
 ]
 
 # ---------------------------------------------------------------------------

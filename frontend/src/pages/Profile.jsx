@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '../components/Sidebar';
 import { getUser, apiGet, apiPost, updateStoredUser, getToken } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import './Profile.css';
 
 const API_BASE = 'http://localhost:5000';
 
@@ -236,6 +237,7 @@ const Profile = () => {
                       <option value="EE">Electrical Engineering</option>
                       <option value="ME">Mechanical Engineering</option>
                       <option value="Civil">Civil Engineering</option>
+                      <option value="Chemical">Chemical Engineering</option>
                       <option value="AI/ML">AI / ML</option>
                       <option value="Data Science">Data Science</option>
                       <option value="Software Engineering">Software Engineering</option>

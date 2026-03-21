@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/api';
+import './SkillGap.css';
 
 const SkillGap = () => {
   console.log("🔥 SkillGap Page Loaded");

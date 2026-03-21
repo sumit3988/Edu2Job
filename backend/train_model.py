@@ -49,16 +49,22 @@ def generate_dataset(num_samples: int = 1200) -> str:
     degrees = ["B.Tech", "M.Tech", "B.Sc", "M.Sc", "BCA", "MCA", "B.E", "MBA"]
     branches = [
         "Computer Science", "IT", "ECE", "EE", "ME",
-        "Civil", "AI/ML", "Data Science", "BBA", "Other",
+        "Civil", "AI/ML", "Data Science", "BBA", "MBA", "Chemical", "Other",
     ]
     job_roles = [
         "Software Engineer", "Data Scientist", "Frontend Developer",
         "Backend Developer", "DevOps Engineer", "ML Engineer",
         "Full Stack Developer", "Cloud Architect",
+        "Mechanical Engineer", "Civil Engineer", "Electrical Engineer",
+        "Business Analyst", "HR Manager", "Marketing Executive",
+        "Chemical Engineer"
     ]
     all_skills = [
         "python", "java", "javascript", "react", "sql",
         "aws", "docker", "machine_learning",
+        "autocad", "solidworks", "ansys", "matlab", "plc", "scada",
+        "management", "marketing", "finance", "communication", "sales",
+        "chemistry", "process_engineering", "hysys", "thermodynamics"
     ]
 
     # Skill-to-role affinity mapping for realistic patterns
@@ -71,18 +77,32 @@ def generate_dataset(num_samples: int = 1200) -> str:
         "ML Engineer":            ["python", "machine_learning", "aws"],
         "Full Stack Developer":   ["javascript", "react", "python", "sql"],
         "Cloud Architect":        ["aws", "docker", "python"],
+        "Mechanical Engineer":    ["autocad", "solidworks", "matlab", "ansys"],
+        "Civil Engineer":         ["autocad", "ansys", "management"],
+        "Electrical Engineer":    ["matlab", "plc", "scada", "autocad"],
+        "Business Analyst":       ["sql", "communication", "management", "finance"],
+        "HR Manager":             ["communication", "management"],
+        "Marketing Executive":    ["marketing", "communication", "management", "sales"],
+        "Chemical Engineer":      ["chemistry", "process_engineering", "hysys", "thermodynamics", "matlab"],
     }
 
     # Branch-to-role affinity mapping for realistic patterns
     role_branch_map = {
-        "Software Engineer":      ["Computer Science", "IT", "AI/ML"],
+        "Software Engineer":      ["Computer Science", "IT", "AI/ML", "ECE"],
         "Data Scientist":         ["Computer Science", "Data Science", "AI/ML", "IT"],
         "Frontend Developer":     ["Computer Science", "IT"],
-        "Backend Developer":      ["Computer Science", "IT"],
+        "Backend Developer":      ["Computer Science", "IT", "ECE"],
         "DevOps Engineer":        ["Computer Science", "IT"],
         "ML Engineer":            ["Computer Science", "AI/ML", "Data Science"],
         "Full Stack Developer":   ["Computer Science", "IT"],
         "Cloud Architect":        ["Computer Science", "IT"],
+        "Mechanical Engineer":    ["ME", "Other"],
+        "Civil Engineer":         ["Civil", "Other"],
+        "Electrical Engineer":    ["EE", "ECE"],
+        "Business Analyst":       ["MBA", "BBA", "IT", "Computer Science"],
+        "HR Manager":             ["MBA", "BBA", "Other"],
+        "Marketing Executive":    ["MBA", "BBA", "Other"],
+        "Chemical Engineer":      ["Chemical", "Other"],
     }
 
     rows = []

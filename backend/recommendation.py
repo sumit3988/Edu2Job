@@ -136,6 +136,48 @@ ROLE_PROFILES = {
         "relevant_certs": ["aws certified", "azure certified", "google cloud certified",
                            "certified kubernetes", "cka"],
     },
+    "Mechanical Engineer": {
+        "required_degrees": ["B.Tech", "B.E", "M.Tech", "M.E", "Diploma"],
+        "eligible_branches": ["ME", "Automobile", "Production"],
+        "relevant_skills": ["autocad", "solidworks", "matlab", "ansys"],
+        "relevant_certs": ["autocad professional", "solidworks certified"],
+    },
+    "Civil Engineer": {
+        "required_degrees": ["B.Tech", "B.E", "M.Tech", "M.E", "Diploma"],
+        "eligible_branches": ["Civil"],
+        "relevant_skills": ["autocad", "ansys", "management"],
+        "relevant_certs": ["autocad professional", "pmp"],
+    },
+    "Electrical Engineer": {
+        "required_degrees": ["B.Tech", "B.E", "M.Tech", "M.E", "Diploma"],
+        "eligible_branches": ["EE", "ECE", "Electronics"],
+        "relevant_skills": ["matlab", "plc", "scada", "autocad"],
+        "relevant_certs": [],
+    },
+    "Business Analyst": {
+        "required_degrees": ["MBA", "BBA", "B.Tech", "B.E", "B.Com"],
+        "eligible_branches": ["MBA", "BBA", "Computer Science", "IT"],
+        "relevant_skills": ["sql", "communication", "management", "finance", "excel", "power bi", "tableau"],
+        "relevant_certs": ["business analysis certification", "pmp", "csm"],
+    },
+    "HR Manager": {
+        "required_degrees": ["MBA", "BBA", "M.A", "B.A"],
+        "eligible_branches": ["MBA", "BBA"],
+        "relevant_skills": ["communication", "management"],
+        "relevant_certs": ["hr certification", "shrm"],
+    },
+    "Marketing Executive": {
+        "required_degrees": ["MBA", "BBA", "B.Com", "M.A", "B.A"],
+        "eligible_branches": ["MBA", "BBA"],
+        "relevant_skills": ["marketing", "communication", "management", "sales"],
+        "relevant_certs": ["digital marketing certification", "google analytics"],
+    },
+    "Chemical Engineer": {
+        "required_degrees": ["B.Tech", "B.E", "M.Tech", "M.E", "Diploma"],
+        "eligible_branches": ["Chemical"],
+        "relevant_skills": ["chemistry", "process_engineering", "hysys", "thermodynamics", "matlab"],
+        "relevant_certs": ["chemical process safety", "six sigma"],
+    },
 }
 
 # ---------------------------------------------------------------------------

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import { getUser, apiPost } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import './Prediction.css';
 
 const roleIcons = {
   'Software Engineer': 'developer_mode',
@@ -15,6 +16,13 @@ const roleIcons = {
   'Backend Developer': 'dns',
   'Full Stack Developer': 'stacks',
   'Cloud Architect': 'cloud_circle',
+  'Mechanical Engineer': 'precision_manufacturing',
+  'Civil Engineer': 'architecture',
+  'Electrical Engineer': 'bolt',
+  'Business Analyst': 'query_stats',
+  'HR Manager': 'groups',
+  'Marketing Executive': 'campaign',
+  'Chemical Engineer': 'science',
 };
 const roleCats = {
   'Software Engineer': 'Tech',
@@ -28,6 +36,13 @@ const roleCats = {
   'Backend Developer': 'Tech',
   'Full Stack Developer': 'Web',
   'Cloud Architect': 'Cloud',
+  'Mechanical Engineer': 'Core Engineer',
+  'Civil Engineer': 'Core Engineer',
+  'Electrical Engineer': 'Core Engineer',
+  'Business Analyst': 'Business',
+  'HR Manager': 'Business',
+  'Marketing Executive': 'Business',
+  'Chemical Engineer': 'Core Engineer',
 };
 
 const Prediction = () => {
@@ -144,6 +159,7 @@ const Prediction = () => {
                     <option value="EE">Electrical Engineering</option>
                     <option value="ME">Mechanical Engineering</option>
                     <option value="Civil">Civil Engineering</option>
+                    <option value="Chemical">Chemical Engineering</option>
                     <option value="AI/ML">AI / ML</option>
                     <option value="Data Science">Data Science</option>
                     <option value="Software Engineering">Software Engineering</option>

@@ -1,0 +1,63 @@
+/* =====================================================
+   PROFILE & RESUME PAGE
+   ===================================================== */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 32px;
+}
+.profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+.profile-card h4 {
+  font-size: 1.125rem; font-weight: 700;
+  margin-bottom: 24px; display: flex;
+  align-items: center; gap: 8px;
+  color: var(--text-900);
+}
+.profile-card h4 .material-symbols-outlined { color: var(--primary); }
+
+/* Upload zone */
+.upload-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: var(--radius); padding: 40px;
+  text-align: center; cursor: pointer;
+  transition: var(--transition); min-height: 250px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.upload-zone:hover { border-color: var(--primary); background: rgba(79,70,229,0.02); }
+.upload-icon-circle {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--primary-light);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--primary); margin-bottom: 16px;
+}
+.upload-zone h5 { font-weight: 600; color: var(--text-900); margin-bottom: 4px; }
+.upload-zone p { font-size: 0.75rem; color: var(--text-500); margin-bottom: 16px; }
+
+/* File card */
+.file-card {
+  background: #f8fafc; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px;
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 24px;
+}
+.file-info { display: flex; align-items: center; gap: 12px; }
+.file-icon {
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  background: var(--blue-100); color: var(--blue-600);
+  display: flex; align-items: center; justify-content: center;
+}
+.file-name { font-size: 0.875rem; font-weight: 600; color: var(--text-900); }
+.file-meta { font-size: 0.75rem; color: var(--text-500); }
+.file-delete {
+  background: none; border: none;
+  color: var(--text-400); cursor: pointer;
+  transition: var(--transition);
+}
+.file-delete:hover { color: var(--red-500); }

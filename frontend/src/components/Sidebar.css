@@ -1,0 +1,120 @@
+/* =====================================================
+   SIDEBAR COMPONENT
+   ===================================================== */
+.sidebar {
+  width: 256px; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  height: 100%;
+}
+/* Dark sidebar (Dashboard) */
+.sidebar.dark {
+  background: var(--sidebar-dark);
+  color: #cbd5e1;
+}
+.sidebar.dark .sidebar-header {
+  padding: 24px; display: flex;
+  align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+.sidebar.dark .sidebar-header .icon-box {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.sidebar.dark .sidebar-header h1 {
+  font-size: 1.25rem; font-weight: 700;
+  color: #fff; letter-spacing: -0.02em;
+}
+.sidebar.dark .sidebar-nav { flex: 1; padding: 24px 16px; }
+.sidebar.dark .nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  font-size: 0.875rem; font-weight: 500;
+  color: #cbd5e1; cursor: pointer;
+  transition: var(--transition); margin-bottom: 4px;
+  text-decoration: none;
+}
+.sidebar.dark .nav-item:hover {
+  background: rgba(255,255,255,0.05); color: #fff;
+}
+.sidebar.dark .nav-item.active {
+  background: rgba(79,70,229,0.2); color: #fff;
+}
+.sidebar.dark .nav-item .material-symbols-outlined {
+  color: var(--text-400); font-size: 1.25rem;
+}
+.sidebar.dark .nav-item.active .material-symbols-outlined,
+.sidebar.dark .nav-item:hover .material-symbols-outlined { color: var(--primary); }
+
+.sidebar.dark .sidebar-footer {
+  padding: 16px; border-top: 1px solid var(--sidebar-border);
+}
+
+/* Light sidebar (Profile, Prediction, Skill Gap) */
+.sidebar.light {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}
+.sidebar.light .sidebar-header {
+  padding: 24px; display: flex;
+  align-items: center; gap: 12px;
+}
+.sidebar.light .sidebar-header .icon-box {
+  width: 40px; height: 40px;
+  border-radius: var(--radius);
+  background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.sidebar.light .sidebar-header h1 {
+  font-size: 1.125rem; font-weight: 700;
+  color: var(--text-900); line-height: 1.2;
+}
+.sidebar.light .sidebar-header .sub-text {
+  font-size: 0.75rem; color: var(--primary); font-weight: 500;
+}
+.sidebar.light .sidebar-nav { flex: 1; padding: 16px; }
+.sidebar.light .nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: var(--radius);
+  font-size: 0.875rem; font-weight: 500;
+  color: var(--text-600); cursor: pointer;
+  transition: var(--transition); margin-bottom: 8px;
+  text-decoration: none;
+}
+.sidebar.light .nav-item:hover {
+  background: #f8fafc; color: var(--primary);
+}
+.sidebar.light .nav-item:hover .material-symbols-outlined { color: var(--primary); }
+.sidebar.light .nav-item.active {
+  background: var(--primary-light); color: var(--primary);
+}
+.sidebar.light .nav-item .material-symbols-outlined {
+  color: var(--text-400); font-size: 1.25rem;
+}
+.sidebar.light .nav-item.active .material-symbols-outlined { color: var(--primary); }
+
+.sidebar.light .sidebar-footer {
+  padding: 16px; border-top: 1px solid var(--border);
+}
+
+/* User card in sidebar footer */
+.user-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; border-radius: var(--radius);
+  transition: var(--transition); cursor: pointer;
+}
+.sidebar.light .user-card:hover { background: #f8fafc; }
+.sidebar.dark .user-card:hover { background: rgba(255,255,255,0.05); }
+.user-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #e2e8f0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem; color: var(--primary);
+}
+.user-card .user-name { font-size: 0.875rem; font-weight: 600; }
+.sidebar.dark .user-card .user-name { color: #fff; }
+.sidebar.light .user-card .user-name { color: var(--text-900); }
+.user-card .user-role { font-size: 0.75rem; color: var(--text-500); }

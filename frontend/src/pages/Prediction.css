@@ -1,0 +1,121 @@
+/* =====================================================
+   PREDICTION PAGE
+   ===================================================== */
+.pred-form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow-sm); margin-bottom: 40px;
+}
+.pred-form-card h3 {
+  font-size: 1.125rem; font-weight: 700;
+  color: var(--text-800); margin-bottom: 16px;
+}
+.form-grid-2 {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Results */
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
+  gap: 16px; margin-bottom: 16px;
+}
+.result-card-inner {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 16px;
+  flex-wrap: wrap;
+}
+.result-role-info {
+  display: flex; align-items: center; gap: 16px;
+  flex: 0 0 auto; min-width: 200px;
+}
+.result-role-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--indigo-50); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.result-role-name { font-weight: 700; color: var(--text-800); }
+.result-role-cat { font-size: 0.75rem; color: var(--text-500); }
+.result-bar-container {
+  display: flex; align-items: center; gap: 16px;
+  flex: 1; min-width: 200px;
+}
+.result-bar {
+  flex: 1; height: 8px;
+  background: #f1f5f9; border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.result-bar-fill {
+  background: linear-gradient(90deg, #3B82F6, #6366F1, #8B5CF6);
+  background-size: 200% 100%;
+  animation: gradientMove 3s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% }
+  100% { background-position: 200% }
+}
+.ai-bg-glow {
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99,102,241,0.2), transparent);
+  filter: blur(80px);
+  z-index: 0;
+}
+.stat-card,
+.result-card,
+.pred-form-card {
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.result-percent {
+  font-size: 0.875rem; font-weight: 700;
+  color: var(--text-700); min-width: 40px; text-align: right;
+}
+/* Explanation list */
+.explanation-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow-sm); margin-bottom: 16px;
+}
+.explanation-card h3 {
+  font-size: 1rem; font-weight: 700;
+  margin-bottom: 12px; display: flex;
+  align-items: center; gap: 8px;
+  color: var(--text-800);
+}
+.explanation-list { list-style: none; }
+.explanation-list li {
+  padding: 10px 0; font-size: 0.875rem;
+  color: var(--text-600);
+  border-bottom: 1px solid #f8fafc;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.explanation-list li::before { content: 'ðŸ’¡'; flex-shrink: 0; }
+

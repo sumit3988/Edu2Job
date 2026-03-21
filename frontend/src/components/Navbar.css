@@ -1,0 +1,37 @@
+/* ---- Navbar Component Styles ---- */
+.landing-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(12px);
+}
+.landing-nav .logo {
+  font-size: 1.25rem; font-weight: 800; color: var(--primary);
+  text-decoration: none; display: flex; align-items: center; gap: 8px;
+}
+.landing-nav .logo .material-symbols-outlined {
+  font-size: 1.5rem; background: var(--primary); color: #fff;
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.landing-nav .nav-links { display: flex; align-items: center; gap: 12px; }
+.nav-btn {
+  padding: 8px 20px; border-radius: 8px; font-size: 0.875rem;
+  font-weight: 600; text-decoration: none; transition: var(--transition);
+  font-family: var(--font); cursor: pointer; border: none;
+}
+.nav-btn-outline {
+  color: var(--text-700); background: transparent;
+  border: 1px solid var(--border);
+}
+.nav-btn-outline:hover { background: #f8fafc; opacity: 1; }
+.nav-btn-primary {
+  background: var(--primary); color: #fff;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.25);
+}
+.nav-btn-primary:hover { background: var(--primary-hover); opacity: 1; transform: translateY(-1px); }
+
+@media (max-width: 768px) {
+  .landing-nav { padding: 12px 20px; }
+}

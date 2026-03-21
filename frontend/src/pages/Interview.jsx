@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/api';
+import './Interview.css';
 
 const Interview = () => {
   const navigate = useNavigate();
