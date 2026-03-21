@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/api';
+import { motion } from 'framer-motion';
 import './SkillGap.css';
 
 const SkillGap = () => {
-  console.log("🔥 SkillGap Page Loaded");
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -15,48 +15,24 @@ const SkillGap = () => {
 
   const skillGaps = [
     {
-      id: 'python',
-      name: 'Python',
-      category: 'Core Requirement',
-      icon: 'code',
-      color: 'blue',
-      level: 'Intermediate',
-      target: 65,
-      learning: 'Advanced Data Structures & Algorithms in Python',
-      time: 'Est. 12 hours'
+      id: 'python', name: 'Advanced Python', category: 'Core Architecture',
+      icon: 'code', color: 'blue', level: 'Intermediate', target: 65,
+      learning: 'Advanced Data Structures & Algorithms in Python', time: 'Est. 12 hours'
     },
     {
-      id: 'ml',
-      name: 'Machine Learning',
-      category: 'Core Requirement',
-      icon: 'psychology',
-      color: 'purple',
-      level: 'Beginner',
-      target: 30,
-      learning: 'Machine Learning Fundamentals & Predictive Models',
-      time: 'Est. 24 hours'
+      id: 'ml', name: 'Machine Learning', category: 'AI Specialization',
+      icon: 'psychology', color: 'purple', level: 'Beginner', target: 30,
+      learning: 'Machine Learning Fundamentals & Predictive Models', time: 'Est. 24 hours'
     },
     {
-      id: 'de',
-      name: 'Data Engineering',
-      category: 'Bonus Skill',
-      icon: 'storage',
-      color: 'green',
-      level: 'Intermediate',
-      target: 55,
-      learning: 'Building Scalable Data Pipelines with Apache Spark',
-      time: 'Est. 18 hours'
+      id: 'de', name: 'Data Engineering', category: 'Infrastructure',
+      icon: 'storage', color: 'green', level: 'Intermediate', target: 55,
+      learning: 'Building Scalable Data Pipelines with Apache Spark', time: 'Est. 18 hours'
     },
     {
-      id: 'cloud',
-      name: 'Cloud Computing',
-      category: 'Industry Standard',
-      icon: 'cloud',
-      color: 'orange',
-      level: 'Advanced',
-      target: 85,
-      learning: 'AWS Certified Machine Learning – Specialty Prep',
-      time: 'Est. 8 hours'
+      id: 'cloud', name: 'Cloud Computing', category: 'DevOps',
+      icon: 'cloud', color: 'orange', level: 'Advanced', target: 85,
+      learning: 'AWS Certified Machine Learning – Specialty Prep', time: 'Est. 8 hours'
     }
   ];
 
@@ -65,80 +41,91 @@ const SkillGap = () => {
     g.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const staggerVars = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
+  const cardVars = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 200 } }
+  };
+
   return (
     <div className="app-layout">
-      <Sidebar activePage="skillgap" variant="light" />
+      <Sidebar activePage="skillgap" />
 
       <div className="main-content">
         <header className="main-header">
-          <h2>Skill Gap Analysis</h2>
+          <h2>Skill Gap Intelligence</h2>
           <div className="header-actions">
-            <div className="search-box" style={{ position: 'relative', display: window.innerWidth >= 768 ? 'block' : 'none' }}>
-              <span className="material-symbols-outlined" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-400)', fontSize: '1rem' }}>search</span>
+            <div className="search-box search-box-desktop">
+              <span className="material-symbols-outlined search-icon">search</span>
               <input 
                 type="text" 
-                placeholder="Search skills..." 
+                placeholder="Analyze skills..." 
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                style={{
-                  padding: '8px 16px 8px 36px', 
-                  background: '#f1f5f9', 
-                  border: '1px solid transparent', 
-                  borderRadius: 'var(--radius)', 
-                  fontSize: '0.875rem', 
-                  width: '256px', 
-                  outline: 'none', 
-                  fontFamily: 'var(--font)'
-                }} 
+                className="search-input dark-search"
               />
             </div>
-            <button className="notification-btn">
+            <button className="notification-btn dark-btn">
               <span className="material-symbols-outlined">notifications</span>
-              <span className="notification-dot" style={{ background: 'var(--red-500)' }}></span>
             </button>
+            <div className="header-avatar" id="headerAvatar"></div>
           </div>
         </header>
 
-        <div className="page-content" style={{ maxWidth: '1100px' }}>
-          <div className="skill-gap-header">
-            <h3>Skills to Improve</h3>
-            <p>We've identified key areas for your professional growth based on your desired role as a Senior Data Scientist. Master these skills to close your gap.</p>
-          </div>
+        <div className="page-content content-max-1280">
+          <motion.div className="skill-gap-header-epic" initial={{opacity: 0, y: -20}} animate={{opacity: 1, y: 0}}>
+            <h3>Nodes to Improve</h3>
+            <p>Target active areas for your professional growth based on your desired role as a <strong>Senior Data Scientist</strong>. Master these neural nodes to close your skill gap.</p>
+          </motion.div>
 
-          <div className="skill-gap-grid">
+          <motion.div className="skill-gap-grid-epic" variants={staggerVars} initial="hidden" animate="visible">
             {filteredGaps.map(gap => (
-              <div className="skill-gap-card" key={gap.id}>
-                <div className="skill-gap-card-header">
-                  <div className="skill-gap-card-info">
-                    <div className={`skill-gap-icon ${gap.color}`}><span className="material-symbols-outlined">{gap.icon}</span></div>
+              <motion.div className="skill-gap-card-epic" key={gap.id} variants={cardVars} whileHover={{y: -8, scale: 1.02}}>
+                <div className={`card-glow-bg glow-${gap.color}`}></div>
+                
+                <div className="skill-card-top">
+                  <div className="skill-info-group">
+                    <div className={`skill-icon-epic stat-${gap.color}`}>
+                      <span className="material-symbols-outlined">{gap.icon}</span>
+                    </div>
                     <div>
-                      <div className="skill-gap-name">{gap.name}</div>
-                      <span className="skill-gap-cat">{gap.category}</span>
+                      <div className="skill-name-epic">{gap.name}</div>
+                      <span className="skill-cat-epic">{gap.category}</span>
                     </div>
                   </div>
-                  <span className={`level-badge level-${gap.level.toLowerCase()}`}>{gap.level}</span>
+                  <span className={`badge-epic badge-${gap.level.toLowerCase()}`}>{gap.level}</span>
                 </div>
-                <div className="proficiency-section">
-                  <div className="proficiency-row">
-                    <span className="proficiency-label">Target Proficiency</span>
-                    <span className="proficiency-value">{gap.target}%</span>
+
+                <div className="proficiency-arena">
+                  <div className="prof-row">
+                    <span className="prof-label">Target Synchronization</span>
+                    <span className="prof-value">{gap.target}%</span>
                   </div>
-                  <div className="proficiency-bar"><div className="proficiency-fill" style={{ width: `${gap.target}%`, transition: 'width 1s ease-out' }}></div></div>
+                  <div className="prof-track">
+                    <div className={`prof-fill fill-${gap.color}`} style={{ width: `${gap.target}%` }}></div>
+                  </div>
                 </div>
-                <div className="learning-box">
-                  <p className="learning-label"><span className="material-symbols-outlined">menu_book</span> Recommended Learning</p>
-                  <a href="#" onClick={e => e.preventDefault()} className="learning-link">{gap.learning}</a>
-                  <p className="learning-time"><span className="material-symbols-outlined">schedule</span> {gap.time}</p>
+
+                <div className="learning-module">
+                  <p className="module-label">
+                    <span className="material-symbols-outlined">menu_book</span> Recommended Module
+                  </p>
+                  <a href="#" onClick={e => e.preventDefault()} className="module-link">{gap.learning}</a>
+                  <p className="module-time"><span className="material-symbols-outlined">schedule</span> {gap.time}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
             
             {filteredGaps.length === 0 && (
-              <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-500)', gridColumn: '1 / -1' }}>
-                No skills found matching "{searchTerm}"
-              </div>
+              <motion.div className="empty-universe" variants={cardVars}>
+                <span className="material-symbols-outlined">satellite_alt</span>
+                No nodes found matching "{searchTerm}"
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

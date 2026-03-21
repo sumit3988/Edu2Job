@@ -1,1 +1,110 @@
-/* Quiz Page specific styles. Extracted for structure. */
+/* =====================================================
+   QUIZ PAGE (VARIABLE THEME)
+   ===================================================== */
+.quiz-container-inner-epic { max-width: 900px; margin: 0 auto; padding-top: 20px; }
+
+.loading-container-epic { text-align: center; padding: 60px; color: var(--text-500); }
+.spinner-icon-epic { font-size: 3rem; color: var(--primary); animation: spinEpic 1s linear infinite; margin-bottom: 16px; display: inline-block; }
+@keyframes spinEpic { 100% { transform: rotate(360deg); } }
+
+.quiz-header-top-epic {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border);
+}
+.quiz-title-main-epic { font-size: 2rem; font-weight: 900; color: var(--text-900); letter-spacing: -0.02em; }
+.quiz-meta-epic { font-size: 1.1rem; color: var(--primary); font-weight: 700; background: var(--primary-light); padding: 8px 16px; border-radius: 100px; border: 1px solid var(--primary-ring); }
+
+.questions-wrapper-epic { display: flex; flex-direction: column; gap: 32px; margin-bottom: 40px; }
+
+.question-card-epic {
+  background: var(--surface); backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border); border-radius: 24px;
+  padding: 40px; box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.03);
+  transition: border-color 0.3s ease;
+}
+.question-card-epic:hover { border-color: var(--primary); }
+
+.question-text-epic { font-size: 1.25rem; font-weight: 800; color: var(--text-900); margin-bottom: 24px; line-height: 1.6; }
+
+.options-grid-epic { display: grid; gap: 16px; }
+
+.option-label-epic {
+  position: relative;
+  display: flex; align-items: center; padding: 20px 24px;
+  border: 2px solid var(--border); border-radius: 16px; cursor: pointer;
+  background: var(--bg-light); transition: all 0.25s ease;
+  font-weight: 600; color: var(--text-700); font-size: 1.05rem;
+}
+.option-label-epic:hover {
+  background: var(--surface); border-color: var(--primary-ring);
+  box-shadow: 0 4px 20px var(--primary-light);
+  transform: translateX(4px); color: var(--text-900);
+}
+
+/* Custom Radio Styling */
+.option-input-epic { position: absolute; opacity: 0; cursor: pointer; }
+.custom-radio {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid var(--text-500); margin-right: 16px;
+  position: relative; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.custom-radio::after {
+  content: ""; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--primary); opacity: 0; transition: opacity 0.2s;
+}
+
+.option-label-epic:hover .custom-radio { border-color: var(--primary); }
+.option-input-epic:checked ~ .custom-radio { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-ring); }
+.option-input-epic:checked ~ .custom-radio::after { opacity: 1; }
+
+.option-label-epic:has(.option-input-epic:checked) {
+  background: var(--primary-light); border-color: var(--primary);
+  box-shadow: 0 4px 20px var(--primary-ring);
+  color: var(--text-900); font-weight: 800;
+}
+
+.btn-epic-full { width: 100%; font-size: 1.15rem; padding: 18px; display: flex; align-items: center; justify-content: center; gap: 12px; border-radius: 100px; background: var(--text-900); color: var(--bg-light); font-weight: 900; border: none; box-shadow: 0 0 30px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
+.btn-epic-full:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(0,0,0,0.2); }
+
+/* Completed Section */
+.result-section-epic {
+  position: relative;
+  text-align: center; padding: 64px 40px; background: var(--surface);
+  backdrop-filter: blur(30px); border: 1px solid var(--border); border-radius: 32px;
+  margin-top: 40px; box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.result-glow-epic {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 400px; height: 400px; background: radial-gradient(circle, var(--primary-light), transparent 60%);
+  filter: blur(40px); pointer-events: none; z-index: 0;
+}
+
+.result-title-epic { position: relative; z-index: 10; font-size: 2.5rem; font-weight: 900; color: var(--text-900); margin-bottom: 40px; letter-spacing: -0.02em; }
+
+.score-circle-epic {
+  position: relative; z-index: 10;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: var(--bg-light); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 40px; box-shadow: inset 0 0 30px var(--primary-light), 0 0 50px var(--primary-light);
+}
+.score-ring {
+  position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
+  border-radius: 50%; border: 4px solid transparent;
+  border-top-color: var(--primary); border-right-color: #60A5FA;
+  animation: spinEpic 3s linear infinite;
+}
+.score-circle-epic span { font-size: 4.5rem; font-weight: 900; color: var(--text-900); text-shadow: 0 0 20px var(--primary-light); background: linear-gradient(135deg, var(--text-900), var(--primary)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+.score-text-epic { position: relative; z-index: 10; font-size: 1.25rem; color: var(--text-500); font-weight: 500; margin-bottom: 40px; }
+.score-text-epic b { color: var(--text-900); font-weight: 900; font-size: 1.4rem; }
+
+.result-actions-epic { position: relative; z-index: 10; display: flex; justify-content: center; gap: 20px; }
+.result-actions-epic .btn { display: inline-flex; align-items: center; gap: 8px; padding: 16px 32px; font-size: 1.1rem; border-radius: 100px; font-weight: 800; transition: all 0.3s; cursor: pointer; text-decoration: none; }
+.result-actions-epic .btn-epic-glass { background: var(--bg-light); color: var(--text-900); border: 1px solid var(--border); }
+.result-actions-epic .btn-epic-glass:hover { background: var(--surface); border-color: var(--primary); }
+.result-actions-epic .btn-epic-primary { background: var(--text-900); color: var(--bg-light); border: none; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+.result-actions-epic .btn-epic-primary:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(0,0,0,0.2); } 

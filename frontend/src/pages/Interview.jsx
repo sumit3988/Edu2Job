@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/api';
+import { motion } from 'framer-motion';
 import './Interview.css';
 
 const Interview = () => {
@@ -11,15 +12,24 @@ const Interview = () => {
     if (!getUser()) navigate('/login');
   }, []);
 
+  const containerVars = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+  };
+  const itemVars = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300 } }
+  };
+
   return (
     <div className="app-layout">
-      <Sidebar activePage="interview" variant="dark" />
+      <Sidebar activePage="interview" />
 
       <div className="main-content">
         <header className="main-header">
-          <h2>Interview Prep</h2>
+          <h2>Interview Intelligence</h2>
           <div className="header-actions">
-            <button className="notification-btn">
+            <button className="notification-btn dark-btn">
               <span className="material-symbols-outlined">notifications</span>
             </button>
             <div className="header-avatar" id="headerAvatar"></div>
@@ -27,67 +37,54 @@ const Interview = () => {
         </header>
 
         <div className="page-content">
-          <div className="form-card">
-            <h3 style={{ marginBottom: '8px' }}>Mock Tests</h3>
-            <p className="text-secondary" style={{ marginBottom: '24px' }}>
-              Test your knowledge with our subject-specific mock tests. Scores are recorded in your profile.
-            </p>
-            
-            <div className="test-grid" style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '24px',
-              marginTop: '24px'
-            }}>
-              <div className="test-card" style={{
-                background: 'var(--surface)',
-                border: '1px solid var(--border)',
-                borderRadius: '16px',
-                padding: '32px',
-                textAlign: 'center',
-                transition: 'var(--transition)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}>
-                <div className="test-icon" style={{
-                  width: '64px', height: '64px', borderRadius: '50%', background: 'var(--bg)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px'
-                }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '2rem', color: 'var(--primary)' }}>code</span>
+          <motion.div initial="hidden" animate="visible" variants={containerVars}>
+            <motion.h3 className="subject-title-epic" variants={itemVars}>Technical Mock Tests</motion.h3>
+            <motion.p className="page-subtitle-epic" variants={itemVars}>
+              Test your knowledge against adaptive, subject-specific mock tests. Scores automatically sync to your AI profile matrix.
+            </motion.p>
+
+            <motion.div className="subjects-grid-epic" variants={containerVars}>
+
+              {/* Java */}
+              <motion.div className="subject-card-epic" variants={itemVars} whileHover={{ y: -8, scale: 1.02 }}>
+                <div className="subject-glow-epic"></div>
+                <div className="subject-header-epic">
+                  <div className="subject-icon-box-epic">
+                    <span className="material-symbols-outlined">code</span>
+                  </div>
+                  <h3 className="subject-title-epic">Enterprise Java</h3>
                 </div>
-                <h3 className="test-title" style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-900)', marginBottom: '8px' }}>Java</h3>
-                <p className="test-desc" style={{ fontSize: '0.95rem', color: 'var(--text-500)', marginBottom: '24px', lineHeight: 1.5 }}>
-                  15 questions covering Core Java, OOPs concepts, exceptions, and memory management.
+                <p className="subject-desc-epic">
+                  15 adaptive questions covering Core Java, OOP architecture, concurrency, and JVM memory management.
                 </p>
-                <Link to="/quiz?subject=java" className="btn btn-primary btn-full">Start Java Test</Link>
-              </div>
-              
-              <div className="test-card" style={{
-                   background: 'var(--surface)',
-                   border: '1px solid var(--border)',
-                   borderRadius: '16px',
-                   padding: '32px',
-                   textAlign: 'center',
-                   transition: 'var(--transition)',
-                   display: 'flex',
-                   flexDirection: 'column',
-                   alignItems: 'center'
-                 }}>
-                <div className="test-icon" style={{
-                  width: '64px', height: '64px', borderRadius: '50%', background: 'var(--bg)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px'
-                }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '2rem', color: 'var(--primary)' }}>account_tree</span>
+                <div className="subject-actions-epic">
+                  <Link to="/quiz?subject=java" className="btn-start-epic">
+                    Deploy Java Test
+                  </Link>
                 </div>
-                <h3 className="test-title" style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-900)', marginBottom: '8px' }}>Data Structures (DSA)</h3>
-                <p className="test-desc" style={{ fontSize: '0.95rem', color: 'var(--text-500)', marginBottom: '24px', lineHeight: 1.5 }}>
-                  15 questions on arrays, linked lists, stacks, queues, trees, and time complexity.
+              </motion.div>
+
+              {/* DSA */}
+              <motion.div className="subject-card-epic" variants={itemVars} whileHover={{ y: -8, scale: 1.02 }}>
+                <div className="subject-glow-epic" style={{ background: 'rgba(168, 85, 247, 0.3)' }}></div>
+                <div className="subject-header-epic">
+                  <div className="subject-icon-box-epic" style={{ color: '#A855F7', background: 'rgba(168, 85, 247, 0.15)', borderColor: 'rgba(168, 85, 247, 0.3)' }}>
+                    <span className="material-symbols-outlined">account_tree</span>
+                  </div>
+                  <h3 className="subject-title-epic">Data Structures (DSA)</h3>
+                </div>
+                <p className="subject-desc-epic">
+                  15 algorithm challenges on trees, graphs, dynamic programming, and Big-O time complexity optimization.
                 </p>
-                <Link to="/quiz?subject=dsa" className="btn btn-primary btn-full">Start DSA Test</Link>
-              </div>
-            </div>
-          </div>
+                <div className="subject-actions-epic">
+                  <Link to="/quiz?subject=dsa" className="btn-start-epic">
+                    Deploy DSA Test
+                  </Link>
+                </div>
+              </motion.div>
+
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </div>

@@ -1,1 +1,59 @@
-/* Interview Page specific styles. Extracted for structure. */
+/* =====================================================
+   INTERVIEW PAGE (VARIABLE THEME)
+   ===================================================== */
+.page-subtitle-epic {
+  font-size: 1.25rem; color: var(--text-500);
+  margin-bottom: 48px; max-width: 600px; line-height: 1.6;
+}
+
+.subjects-grid-epic {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.subject-card-epic {
+  background: var(--surface);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: 24px; padding: 32px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
+}
+.subject-card-epic:hover { border-color: var(--primary); }
+
+.subject-glow-epic {
+  position: absolute; top: -50px; right: -50px;
+  width: 150px; height: 150px; border-radius: 50%;
+  background: var(--primary-ring); filter: blur(40px);
+  opacity: 0.2; transition: opacity 0.3s;
+}
+.subject-card-epic:hover .subject-glow-epic { opacity: 0.4; }
+
+.subject-header-epic {
+  position: relative; z-index: 10; display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+}
+.subject-icon-box-epic {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: var(--primary-light); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--primary-ring);
+  font-size: 2rem;
+}
+.subject-title-epic { font-size: 1.5rem; font-weight: 800; color: var(--text-900); letter-spacing: -0.02em; }
+.subject-desc-epic { position: relative; z-index: 10; font-size: 1rem; color: var(--text-500); line-height: 1.6; margin-bottom: 32px; flex: 1; }
+
+.subject-actions-epic { position: relative; z-index: 10; display: flex; align-items: center; gap: 16px; }
+
+.btn-start-epic {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--text-900); color: var(--bg-light) !important;
+  font-weight: 800; padding: 14px 28px; border-radius: 100px;
+  border: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  cursor: pointer; text-decoration: none;
+}
+.btn-start-epic:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+
+.subject-meta-epic { font-size: 0.85rem; color: var(--text-400); font-weight: 600; display: flex; align-items: center; gap: 4px; }

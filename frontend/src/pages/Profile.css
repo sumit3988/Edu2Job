@@ -1,63 +1,165 @@
 /* =====================================================
-   PROFILE & RESUME PAGE
+   PROFILE PAGE (VARIABLE THEME)
    ===================================================== */
-.profile-grid {
-  display: grid;
-  grid-template-columns: 7fr 5fr;
-  gap: 32px;
+.content-header-epic { margin-bottom: 48px; }
+.content-title-epic {
+  font-size: 2.5rem; font-weight: 900; 
+  letter-spacing: -0.03em; color: var(--text-900); margin-bottom: 12px;
 }
-.profile-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 32px;
+.content-desc-epic { color: var(--text-500); font-size: 1.15rem; max-width: 600px; line-height: 1.6; }
+
+.toast-epic {
+  padding: 16px 24px; border-radius: 16px; margin-bottom: 32px;
+  display: flex; align-items: center; gap: 12px; font-weight: 700;
   box-shadow: var(--shadow-sm);
 }
-.profile-card h4 {
-  font-size: 1.125rem; font-weight: 700;
-  margin-bottom: 24px; display: flex;
-  align-items: center; gap: 8px;
-  color: var(--text-900);
+.toast-success {
+  background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16,185,129,0.3);
+  color: #10B981;
 }
-.profile-card h4 .material-symbols-outlined { color: var(--primary); }
+.toast-error {
+  background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239,68,68,0.3);
+  color: #EF4444;
+}
 
-/* Upload zone */
-.upload-zone {
-  border: 2px dashed #cbd5e1;
-  border-radius: var(--radius); padding: 40px;
-  text-align: center; cursor: pointer;
-  transition: var(--transition); min-height: 250px;
+.profile-grid-epic {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+}
+
+.profile-card-epic {
+  position: relative;
+  background: var(--surface);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: 32px; padding: 48px;
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.05);
   display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.card-glow {
+  position: absolute; top: -50px; left: -50px;
+  width: 200px; height: 200px; filter: blur(60px); opacity: 0.15; z-index: 0;
+}
+.blue-glow-soft { background: #3B82F6; }
+.purple-glow-soft { background: #A855F7; }
+
+.profile-card-epic h4 {
+  position: relative; z-index: 10;
+  font-size: 1.4rem; font-weight: 800;
+  margin-bottom: 32px; display: flex;
+  align-items: center; gap: 16px;
+  color: var(--text-900); letter-spacing: -0.02em;
+}
+
+.icon-wrap {
+  width: 48px; height: 48px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--primary-ring);
+}
+.blue-wrap { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
+.purple-wrap { background: rgba(168, 85, 247, 0.15); color: #A855F7; }
+
+/* Form Styles */
+.epic-form { position: relative; z-index: 10; display: flex; flex-direction: column; gap: 24px; }
+.form-row-spaced { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label { font-size: 0.85rem; font-weight: 700; color: var(--text-500); text-transform: uppercase; letter-spacing: 0.05em; }
+.label-optional { color: var(--text-400); font-weight: 500; text-transform: none; }
+
+.epic-input {
+  width: 100%; padding: 14px 20px;
+  background: var(--bg-light); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text-900); font-size: 1rem; font-family: var(--font);
+  transition: all 0.3s ease; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+.epic-input:focus {
+  outline: none; border-color: var(--primary); background: var(--bg-light);
+  box-shadow: 0 0 0 3px var(--primary-ring), inset 0 2px 4px rgba(0,0,0,0.02);
+}
+.epic-input::placeholder { color: var(--text-400); }
+.epic-input option { background: var(--bg-light); color: var(--text-900); }
+
+.select-wrapper { position: relative; }
+.select-wrapper .epic-input { appearance: none; padding-right: 48px; }
+.dropdown-icon {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  color: var(--text-400); pointer-events: none;
+}
+
+/* Skill Tags */
+.skill-tags-wrapper-epic {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  padding: 16px; background: var(--bg-light); border: 1px solid var(--border);
+  border-radius: 12px; min-height: 64px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+.skill-tag-epic {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; background: var(--primary-light); border: 1px solid var(--primary-ring);
+  color: var(--primary); border-radius: 100px; font-size: 0.85rem; font-weight: 700;
+}
+.skill-tag-epic .remove { cursor: pointer; font-size: 16px; transition: 0.2s; }
+.skill-tag-epic .remove:hover { color: var(--text-900); transform: scale(1.1); }
+.epic-node-input {
+  border: none; background: transparent; color: var(--text-900); font-size: 1rem;
+  font-family: var(--font); outline: none; flex: 1; min-width: 120px;
+}
+.epic-node-input::placeholder { color: var(--text-400); }
+
+.btn-epic {
+  margin-top: 16px; padding: 16px; font-size: 1.1rem; border-radius: 100px;
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  background: var(--text-900); color: var(--bg-light) !important; font-weight: 800;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1); border: none; cursor: pointer; transition: 0.3s;
+}
+.btn-epic:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(0,0,0,0.2); }
+
+/* Upload Component */
+.upload-desc-epic { position: relative; z-index: 10; font-size: 1.1rem; color: var(--text-500); margin-bottom: 32px; line-height: 1.6; }
+
+.upload-zone-epic {
+  position: relative; z-index: 10;
+  border: 2px dashed var(--border); background: var(--bg-light);
+  border-radius: 20px; padding: 48px; text-align: center; cursor: pointer;
+  transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center;
   margin-bottom: 24px;
 }
-.upload-zone:hover { border-color: var(--primary); background: rgba(79,70,229,0.02); }
-.upload-icon-circle {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: var(--primary-light);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--primary); margin-bottom: 16px;
-}
-.upload-zone h5 { font-weight: 600; color: var(--text-900); margin-bottom: 4px; }
-.upload-zone p { font-size: 0.75rem; color: var(--text-500); margin-bottom: 16px; }
+.upload-zone-epic:hover { border-color: var(--primary); background: var(--primary-light); }
 
-/* File card */
-.file-card {
-  background: #f8fafc; border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px;
-  display: flex; align-items: center;
-  justify-content: space-between; margin-bottom: 24px;
+.upload-icon-circle-epic {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--primary-light); border: 1px solid var(--primary-ring);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--primary); margin-bottom: 20px;
 }
-.file-info { display: flex; align-items: center; gap: 12px; }
-.file-icon {
-  width: 40px; height: 40px; border-radius: var(--radius-sm);
-  background: var(--blue-100); color: var(--blue-600);
+.upload-icon-pulse { font-size: 2.5rem; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+
+.upload-zone-epic h5 { font-size: 1.25rem; font-weight: 800; color: var(--text-900); margin-bottom: 8px; }
+.upload-zone-epic p { font-size: 0.9rem; color: var(--text-500); font-weight: 600; }
+
+.file-card-epic {
+  position: relative; z-index: 10;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 32px;
+}
+.file-icon-epic {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(16, 185, 129, 0.15); color: #10B981;
   display: flex; align-items: center; justify-content: center;
 }
-.file-name { font-size: 0.875rem; font-weight: 600; color: var(--text-900); }
-.file-meta { font-size: 0.75rem; color: var(--text-500); }
-.file-delete {
-  background: none; border: none;
-  color: var(--text-400); cursor: pointer;
-  transition: var(--transition);
+.file-name-epic { font-size: 1rem; font-weight: 700; color: var(--text-900); margin-bottom: 4px; }
+.file-meta-epic { font-size: 0.85rem; color: #10B981; font-weight: 600; }
+.file-delete-epic { background: none; border: none; color: var(--text-500); font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
+.file-delete-epic:hover { color: #EF4444; }
+
+.btn-epic-glow { width: 100%; padding: 16px; font-size: 1.1rem; border-radius: 100px; display: flex; justify-content: center; align-items: center; gap: 10px; background: var(--text-900); color: var(--bg-light) !important; font-weight: 800; border: none; cursor: pointer; transition: 0.3s; }
+.btn-epic-glow:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(0,0,0,0.2); }
+
+@media (max-width: 1024px) {
+  .profile-grid-epic { grid-template-columns: 1fr; }
+  .form-row-spaced { grid-template-columns: 1fr; gap: 16px; }
 }
-.file-delete:hover { color: var(--red-500); }
