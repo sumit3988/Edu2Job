@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiPost } from '../utils/api';
+import Navbar from '../components/Navbar';
 import './Login.css';
 
 const Login = () => {
@@ -40,6 +41,7 @@ const Login = () => {
 
   return (
     <div className="login-page">
+      <Navbar />
 
       {/* Background */}
       <div className="bg-blob blob1"></div>

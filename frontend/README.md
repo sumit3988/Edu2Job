@@ -1,16 +1,43 @@
-# React + Vite
+# Edu2Job Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React-based frontend for the Edu2Job platform, built with **Vite**, **Framer Motion**, and **React 19**.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Premium Glassmorphism**: High-density layouts with blurred surfaces and neon glows.
+- **Global Theme Engine**: Managed via `ThemeContext` with persistent storage.
+- **Fluid Animations**: Staggered children transitions and spring physics via Framer Motion.
+- **Dynamic Routing**: Multi-page simulation experience using `react-router-dom`.
 
-## React Compiler
+## 🛠 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19
+- **Build Tool**: Vite 8
+- **Animations**: Framer Motion 12, React Type Animation
+- **Icons**: Material Symbols (Google Fonts)
+- **State Management**: React Context API
 
-## Expanding the ESLint configuration
+## 🧑‍💻 Development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Run Dev Server**:
+   ```bash
+   npm run dev
+   ```
+
+3. **Build Profile**:
+   ```bash
+   npm run build
+   ```
+
+## 🏗 Directory Structure
+
+- `/src/pages`: Individual page components (Dashboard, SkillGap, Quiz, etc.).
+- `/src/components`: Global shared UI elements (Sidebar, Navbar).
+- `/src/context`: Global application state (Theme).
+- `/src/utils`: API wrappers and helper logic.
+- `/src/assets`: Static images and global styles.

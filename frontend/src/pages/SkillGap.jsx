@@ -1,144 +1,241 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../utils/api';
+import { getUser, apiGet, apiPost } from '../utils/api';
+import { motion } from 'framer-motion';
 import './SkillGap.css';
 
 const SkillGap = () => {
-  console.log("🔥 SkillGap Page Loaded");
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [roles, setRoles] = useState([]);
+  const [selectedRole, setSelectedRole] = useState('');
+  const [analysis, setAnalysis] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const user = getUser();
 
   useEffect(() => {
-    if (!getUser()) navigate('/login');
+    if (!user) { navigate('/login'); return; }
+
+    // Load available roles
+    const loadRoles = async () => {
+      try {
+        const res = await apiGet('/skillgap/roles');
+        if (res.roles) setRoles(res.roles);
+      } catch (e) { /* silent */ }
+    };
+    loadRoles();
+
+    // Pre-select target_role if saved in profile
+    if (user.target_role) {
+      setSelectedRole(user.target_role);
+    }
   }, []);
 
-  const skillGaps = [
-    {
-      id: 'python',
-      name: 'Python',
-      category: 'Core Requirement',
-      icon: 'code',
-      color: 'blue',
-      level: 'Intermediate',
-      target: 65,
-      learning: 'Advanced Data Structures & Algorithms in Python',
-      time: 'Est. 12 hours'
-    },
-    {
-      id: 'ml',
-      name: 'Machine Learning',
-      category: 'Core Requirement',
-      icon: 'psychology',
-      color: 'purple',
-      level: 'Beginner',
-      target: 30,
-      learning: 'Machine Learning Fundamentals & Predictive Models',
-      time: 'Est. 24 hours'
-    },
-    {
-      id: 'de',
-      name: 'Data Engineering',
-      category: 'Bonus Skill',
-      icon: 'storage',
-      color: 'green',
-      level: 'Intermediate',
-      target: 55,
-      learning: 'Building Scalable Data Pipelines with Apache Spark',
-      time: 'Est. 18 hours'
-    },
-    {
-      id: 'cloud',
-      name: 'Cloud Computing',
-      category: 'Industry Standard',
-      icon: 'cloud',
-      color: 'orange',
-      level: 'Advanced',
-      target: 85,
-      learning: 'AWS Certified Machine Learning – Specialty Prep',
-      time: 'Est. 8 hours'
-    }
-  ];
+  // Auto-analyze when role changes
+  useEffect(() => {
+    if (selectedRole) analyzeGap();
+  }, [selectedRole]);
 
-  const filteredGaps = skillGaps.filter(g => 
-    g.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    g.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const analyzeGap = async () => {
+    if (!selectedRole) return;
+    setLoading(true);
+    setError('');
+    setAnalysis(null);
+
+    try {
+      const res = await apiPost('/skillgap/analyze', {
+        target_role: selectedRole,
+        skills: user?.skills || '',
+      });
+
+      if (res.error) {
+        setError(res.error);
+      } else {
+        setAnalysis(res);
+      }
+    } catch (e) {
+      setError('Failed to analyze skill gap.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const staggerVars = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
+  const cardVars = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 200 } }
+  };
+
+  const hasSkills = user?.skills && user.skills.trim().length > 0;
 
   return (
     <div className="app-layout">
-      <Sidebar activePage="skillgap" variant="light" />
+      <Sidebar activePage="skillgap" />
 
       <div className="main-content">
         <header className="main-header">
-          <h2>Skill Gap Analysis</h2>
+          <h2>Skill Gap Intelligence</h2>
           <div className="header-actions">
-            <div className="search-box" style={{ position: 'relative', display: window.innerWidth >= 768 ? 'block' : 'none' }}>
-              <span className="material-symbols-outlined" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-400)', fontSize: '1rem' }}>search</span>
-              <input 
-                type="text" 
-                placeholder="Search skills..." 
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                style={{
-                  padding: '8px 16px 8px 36px', 
-                  background: '#f1f5f9', 
-                  border: '1px solid transparent', 
-                  borderRadius: 'var(--radius)', 
-                  fontSize: '0.875rem', 
-                  width: '256px', 
-                  outline: 'none', 
-                  fontFamily: 'var(--font)'
-                }} 
-              />
+            <div className="header-avatar" id="headerAvatar">
+              {user?.full_name?.charAt(0)?.toUpperCase()}
             </div>
-            <button className="notification-btn">
-              <span className="material-symbols-outlined">notifications</span>
-              <span className="notification-dot" style={{ background: 'var(--red-500)' }}></span>
-            </button>
           </div>
         </header>
 
-        <div className="page-content" style={{ maxWidth: '1100px' }}>
-          <div className="skill-gap-header">
-            <h3>Skills to Improve</h3>
-            <p>We've identified key areas for your professional growth based on your desired role as a Senior Data Scientist. Master these skills to close your gap.</p>
-          </div>
+        <div className="page-content content-max-1280">
+          {/* Role Selector */}
+          <motion.div className="skill-gap-header-epic" initial={{opacity: 0, y: -20}} animate={{opacity: 1, y: 0}}>
+            <h3>Target Role Analysis</h3>
+            <p>Select your dream job role and we'll analyze the gap between your current skills and what's required.</p>
 
-          <div className="skill-gap-grid">
-            {filteredGaps.map(gap => (
-              <div className="skill-gap-card" key={gap.id}>
-                <div className="skill-gap-card-header">
-                  <div className="skill-gap-card-info">
-                    <div className={`skill-gap-icon ${gap.color}`}><span className="material-symbols-outlined">{gap.icon}</span></div>
+            <div className="role-selector-wrapper">
+              <div className="select-wrapper">
+                <select
+                  className="epic-input role-select"
+                  value={selectedRole}
+                  onChange={e => setSelectedRole(e.target.value)}
+                >
+                  <option value="">Select your target role...</option>
+                  {roles.map(role => (
+                    <option key={role} value={role}>{role}</option>
+                  ))}
+                </select>
+                <span className="material-symbols-outlined dropdown-icon">expand_more</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* No role selected */}
+          {!selectedRole && (
+            <motion.div className="empty-state-card" initial={{opacity:0}} animate={{opacity:1}}>
+              <span className="material-symbols-outlined empty-icon">target</span>
+              <h4>Please select a target role to see skill gap</h4>
+              <p>Choose your dream job role above and we'll show you exactly what skills you need to develop.</p>
+            </motion.div>
+          )}
+
+          {/* No skills warning */}
+          {selectedRole && !hasSkills && !loading && (
+            <motion.div className="warning-card" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}}>
+              <span className="material-symbols-outlined">info</span>
+              <p>Add skills in your <a href="/profile">Profile</a> to get a personalized analysis.</p>
+            </motion.div>
+          )}
+
+          {/* Loading */}
+          {loading && (
+            <div className="loading-container-epic">
+              <div className="spinner-epic">
+                <span className="material-symbols-outlined spinner-icon-epic">sync</span>
+              </div>
+              <p>Analyzing skill gap...</p>
+            </div>
+          )}
+
+          {/* Error */}
+          {error && (
+            <motion.div initial={{opacity:0, y:-10}} animate={{opacity:1, y:0}} className="toast-epic toast-error">
+              <span className="material-symbols-outlined">error</span> {error}
+            </motion.div>
+          )}
+
+          {/* Results */}
+          {analysis && !loading && (
+            <motion.div variants={staggerVars} initial="hidden" animate="visible">
+
+              {/* Match percentage ring */}
+              <motion.div className="match-summary-card" variants={cardVars}>
+                <div className="match-ring-container">
+                  <div className="match-ring">
+                    <svg viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="52" className="ring-bg" />
+                      <circle cx="60" cy="60" r="52" className="ring-fill"
+                        style={{ strokeDasharray: `${analysis.match_percentage * 3.27} 327` }}
+                      />
+                    </svg>
+                    <span className="match-pct">{analysis.match_percentage}%</span>
+                  </div>
+                  <p className="match-label">Skill Match</p>
+                </div>
+                <div className="match-stats">
+                  <div className="stat-item stat-green">
+                    <span className="material-symbols-outlined">check_circle</span>
                     <div>
-                      <div className="skill-gap-name">{gap.name}</div>
-                      <span className="skill-gap-cat">{gap.category}</span>
+                      <strong>{analysis.matched_skills.length}</strong>
+                      <span>Skills Matched</span>
                     </div>
                   </div>
-                  <span className={`level-badge level-${gap.level.toLowerCase()}`}>{gap.level}</span>
-                </div>
-                <div className="proficiency-section">
-                  <div className="proficiency-row">
-                    <span className="proficiency-label">Target Proficiency</span>
-                    <span className="proficiency-value">{gap.target}%</span>
+                  <div className="stat-item stat-red">
+                    <span className="material-symbols-outlined">cancel</span>
+                    <div>
+                      <strong>{analysis.missing_skills.length}</strong>
+                      <span>Skills Missing</span>
+                    </div>
                   </div>
-                  <div className="proficiency-bar"><div className="proficiency-fill" style={{ width: `${gap.target}%`, transition: 'width 1s ease-out' }}></div></div>
                 </div>
-                <div className="learning-box">
-                  <p className="learning-label"><span className="material-symbols-outlined">menu_book</span> Recommended Learning</p>
-                  <a href="#" onClick={e => e.preventDefault()} className="learning-link">{gap.learning}</a>
-                  <p className="learning-time"><span className="material-symbols-outlined">schedule</span> {gap.time}</p>
-                </div>
-              </div>
-            ))}
-            
-            {filteredGaps.length === 0 && (
-              <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-500)', gridColumn: '1 / -1' }}>
-                No skills found matching "{searchTerm}"
-              </div>
-            )}
-          </div>
+              </motion.div>
+
+              {/* Matched Skills */}
+              {analysis.matched_skills.length > 0 && (
+                <motion.div className="skills-section" variants={cardVars}>
+                  <h4><span className="material-symbols-outlined icon-green">verified</span> Your Matched Skills</h4>
+                  <div className="skill-tags-display">
+                    {analysis.matched_skills.map((skill, i) => (
+                      <span key={i} className="skill-badge skill-badge-green">{skill}</span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Missing Skills */}
+              {analysis.missing_skills.length > 0 && (
+                <motion.div className="skills-section" variants={cardVars}>
+                  <h4><span className="material-symbols-outlined icon-red">pending</span> Skills to Develop</h4>
+                  <div className="skill-tags-display">
+                    {analysis.missing_skills.map((skill, i) => (
+                      <span key={i} className="skill-badge skill-badge-red">{skill}</span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Learning Path */}
+              {analysis.learning_path && analysis.learning_path.length > 0 && (
+                <motion.div className="learning-section" variants={cardVars}>
+                  <h4><span className="material-symbols-outlined icon-purple">school</span> Recommended Learning Path</h4>
+                  <div className="learning-grid">
+                    {analysis.learning_path.map((item, i) => (
+                      <motion.div className="learning-card" key={i} variants={cardVars} whileHover={{y: -4, scale: 1.01}}>
+                        <h5>{item.skill}</h5>
+                        <ul>
+                          {item.topics.map((topic, j) => (
+                            <li key={j}>
+                              <span className="material-symbols-outlined">arrow_right</span>
+                              {topic}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Message if any */}
+              {analysis.message && (
+                <motion.div className="warning-card" variants={cardVars}>
+                  <span className="material-symbols-outlined">info</span>
+                  <p>{analysis.message}</p>
+                </motion.div>
+              )}
+
+            </motion.div>
+          )}
         </div>
       </div>
     </div>

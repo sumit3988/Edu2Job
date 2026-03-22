@@ -1,96 +1,91 @@
 # Edu2Job – AI Career Prediction Platform
 
-Edu2Job is a full-stack web application designed to help students and professionals discover their ideal career paths. By leveraging machine learning and resume parsing, the platform predicts the most suitable job roles based on a user's skills, education, and experience, while also identifying skill gaps to help them reach their goals.
+Edu2Job is a premium, full-stack AI platform designed to bridge the gap between education and employment. It utilizes machine learning to analyze user skills and resumes, providing statistical job role predictions and interactive skill-gap visualizations.
 
-## Features
+## ✨ Features
 
-- **User Authentication**: Secure signup and login using JWT (JSON Web Tokens).
-- **Profile Management**: Users can manage their personal information, education, and skills.
-- **Resume Parsing**: Automatically extract skills and information from uploaded resumes (PDF/DOCX).
-- **AI Job Prediction**: Utilizes a trained machine learning model (scikit-learn) to predict the most likely career role based on user data.
-- **Skill Gap Analysis**: Visualizes the gap between a user's current skills and the skills required for their predicted or desired role.
-- **Interactive Dashboard**: A modern, responsive dashboard to view prediction history and statistics.
+- **Premium UI/UX**: Ultra-modern, high-density design with glassmorphism, glowing accents, and fluid animations.
+- **Global Theme System**: Seamless toggle between "Professional Light" and "Dark Universe" themes with persistent user preference.
+- **AI Career Prediction**: Parallel execution of multiple ML models (Random Forest, Logistic Regression) to predict the most likely job roles.
+- **Skill Gap Intelligence**: Interactive node mapping that identifies precisely which skills you need to acquire for your target role.
+- **Mock Test Arenas**: Adaptive, subject-specific technical tests with real-time scoring and AI-profile syncing.
+- **Intelligent Resume Parsing**: Automatic skill extraction from PDF and DOCX uploads using advanced parsing logic.
+- **Identity Matrix (Profile)**: Comprehensive management of your professional profile, skills, and experience with a futuristic UI.
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript.
-- **Backend**: Python, Flask, Flask-CORS.
-- **Database**: MongoDB (with an automatic in-memory fallback for easy testing).
-- **Machine Learning**: scikit-learn, pandas, numpy, joblib.
-- **Authentication**: PyJWT, werkzeug.security.
-- **File Parsing**: PyPDF2, python-docx.
+### Frontend
+- **System**: [React 19](https://react.dev/) + [Vite 8](https://vitejs.dev/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) (Spring physics, stagger effects, glassmorphic transitions)
+- **Typography**: [React Type Animation](https://www.npmjs.com/package/react-type-animation) (Dynamic hero text)
+- **Styling**: Vanilla CSS with a strict CSS Variable architecture for global theming.
+- **Icons**: [Google Material Symbols](https://fonts.google.com/icons)
 
-## Project Structure
+### Backend
+- **Core**: Python 3.8+ / [Flask](https://flask.palletsprojects.com/)
+- **Database**: [MongoDB](https://www.mongodb.com/) (with an automated in-memory fallback for zero-config testing)
+- **Machine Learning**: Scikit-Learn (Random Forest, Logistic Regression), Pandas, Numpy
+- **Security**: JWT (JSON Web Tokens) for stateless authentication.
+
+## 📂 Project Structure
 
 ```text
 Edu2Job/
-├── backend/                # Python Flask application
-│   ├── app.py              # Main application entry point
-│   ├── auth.py             # Authentication routes (login/signup)
-│   ├── charts.py           # Logic for generating chart data
-│   ├── database.py         # MongoDB connection and fallback logic
-│   ├── prediction.py       # ML model loading and prediction logic
-│   ├── resume_parser.py    # PDF and DOCX parsing utilities
-│   ├── routes.py           # API route definitions
-│   ├── train_model.py      # Script to train the ML model
-│   ├── uploads/            # Temporary storage for uploaded resumes
-│   └── __pycache__/        
-├── dataset/                # Datasets used for training the model
-├── frontend/               # Static frontend files (HTML/CSS/JS)
-│   ├── index.html          # Landing page
-│   ├── login.html          # Login page
-│   ├── signup.html         # Signup page
-│   ├── dashboard.html      # User dashboard
-│   ├── profile.html        # User profile and resume upload
-│   ├── prediction.html     # Career prediction interface
-│   ├── skillgap.html       # Skill gap analysis map
-│   ├── styles.css          # Shared CSS styles
-│   └── script.js           # Shared JavaScript logic
-├── ml_model/               # Saved, trained machine learning models (*.pkl)
-└── requirements.txt        # Python dependencies
+├── backend/                # Flask API & ML Logic
+│   ├── app.py              # Main Entry Point
+│   ├── auth.py             # JWT & Auth Logic
+│   ├── prediction.py       # ML Model Inference
+│   ├── resume_parser.py    # PDF/DOCX Parsing
+│   └── train_model.py      # Model Training Script
+├── frontend/               # React + Vite Frontend
+│   ├── src/
+│   │   ├── components/     # Reusable UI (Sidebar, Navbar)
+│   │   ├── context/        # Global State (ThemeContext)
+│   │   ├── pages/          # Feature Pages (Dashboard, SkillGap, Quiz)
+│   │   └── utils/          # API & Helper functions
+│   └── index.html          # Entry Template
+├── ml_model/               # Pre-trained ML Models (*.pkl)
+└── dataset/                # Training data for Career Predictions
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
+- **Python 3.8+**
+- **Node.js 18+**
+- (Optional) **MongoDB** (App falls back to in-memory DB if not found)
 
-- **Python 3.8+** installed on your machine.
-- (Optional) **MongoDB** installed and running locally on port `27017`. If MongoDB is not found, the app will gracefully fall back to an in-memory database, allowing you to test the app without any database setup!
+### Installation
 
-### Installation & Setup
-
-1. **Clone the repository** (or navigate to the project directory):
+1. **Clone the repository**:
    ```bash
+   git clone https://github.com/yourusername/Edu2Job.git
    cd Edu2Job
    ```
 
-2. **Install the required Python packages**:
-   It is recommended to use a virtual environment.
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Start the Backend Server**:
-   The Flask backend is configured to automatically serve the frontend files.
+2. **Setup Backend**:
    ```bash
    cd backend
+   pip install -r requirements.txt
    python app.py
    ```
 
-4. **Access the Application**:
-   Open your web browser and navigate to:
-   [http://localhost:5000](http://localhost:5000)
+3. **Setup Frontend**:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 
-## API Endpoints Overview
+4. **Access**:
+   - Backend API: `http://localhost:5000`
+   - Frontend: `http://localhost:5173`
 
-- `POST /auth/signup`: Register a new user.
-- `POST /auth/login`: Authenticate a user and receive a JWT.
-- `GET /api/user/profile`: Fetch the current user's profile.
-- `PUT /api/user/profile`: Update the user's profile.
-- `POST /api/user/upload-resume`: Upload and parse a resume.
-- `POST /api/predict`: Generate a career prediction based on current profile/resume data.
-- `POST /api/skill-gap`: Generate a skill gap analysis for a target role.
+## 📡 API Overview
+- `POST /auth/login` - Secure user authentication.
+- `POST /api/predict` - Run the ML Prediction Engine.
+- `POST /api/skill-gap` - Analyze missing expertise for target roles.
+- `POST /api/user/upload-resume` - Pulse-parse uploaded documents for skills.
 
-## License
-
+## 📄 License
 This project is licensed under the MIT License.

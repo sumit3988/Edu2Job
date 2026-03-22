@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import { getUser, apiPost } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import './Prediction.css';
 
 const roleIcons = {
@@ -16,13 +17,6 @@ const roleIcons = {
   'Backend Developer': 'dns',
   'Full Stack Developer': 'stacks',
   'Cloud Architect': 'cloud_circle',
-  'Mechanical Engineer': 'precision_manufacturing',
-  'Civil Engineer': 'architecture',
-  'Electrical Engineer': 'bolt',
-  'Business Analyst': 'query_stats',
-  'HR Manager': 'groups',
-  'Marketing Executive': 'campaign',
-  'Chemical Engineer': 'science',
 };
 const roleCats = {
   'Software Engineer': 'Tech',
@@ -36,13 +30,6 @@ const roleCats = {
   'Backend Developer': 'Tech',
   'Full Stack Developer': 'Web',
   'Cloud Architect': 'Cloud',
-  'Mechanical Engineer': 'Core Engineer',
-  'Civil Engineer': 'Core Engineer',
-  'Electrical Engineer': 'Core Engineer',
-  'Business Analyst': 'Business',
-  'HR Manager': 'Business',
-  'Marketing Executive': 'Business',
-  'Chemical Engineer': 'Core Engineer',
 };
 
 const Prediction = () => {
@@ -82,7 +69,7 @@ const Prediction = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.skills) {
-      setError('Please enter your skills');
+      setError('Neural scan requires skill nodes to proceed.');
       return;
     }
     setError(null);
@@ -110,140 +97,165 @@ const Prediction = () => {
         saved.push(predEntry);
         localStorage.setItem('edu2job_predictions', JSON.stringify(saved));
 
-        try { await apiPost('/profile/predictions', predEntry); } catch (e) { console.warn('Could not save prediction to server:', e); }
+        try { await apiPost('/profile/predictions', predEntry); } catch (e) {}
       } else {
         setError(res.error || 'Prediction failed');
       }
     } catch (err) {
       setLoading(false);
-      setError(err.message || 'Network error');
+      setError(err.message || 'Network anomaly detected.');
     }
+  };
+
+  const staggerVars = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+  };
+  const resultVars = {
+    hidden: { opacity: 0, x: -30 },
+    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 200 } }
   };
 
   return (
     <div className="app-layout">
-      <Sidebar activePage="prediction" variant="light" />
+      <Sidebar activePage="prediction" />
 
       <div className="main-content">
         <header className="main-header">
-          <h2>Career Prediction</h2>
+          <h2>Career Prediction Engine</h2>
+          <div className="header-actions">
+            <button className="notification-btn dark-btn">
+              <span className="material-symbols-outlined">notifications</span>
+            </button>
+            <div className="header-avatar" id="headerAvatar"></div>
+          </div>
         </header>
 
-        <div className="page-content" style={{ maxWidth: '900px' }}>
-          {error && <div className="toast toast-error" style={{ position: 'relative', top: 0, left: 0, right: 0, transform: 'none', marginBottom: '16px' }}>{error}</div>}
+        <div className="page-content content-max-1000">
+          {error && (
+            <motion.div initial={{opacity:0, y:-10}} animate={{opacity:1, y:0}} className="toast-epic toast-error">
+               <span className="material-symbols-outlined">error</span> {error}
+            </motion.div>
+          )}
 
-          <div className="pred-form-card">
-            <h3>Prediction Parameters</h3>
-            <form onSubmit={handleSubmit} noValidate>
-              <div className="form-grid-2" style={{ marginBottom: '20px' }}>
-                <div className="form-group" style={{ marginBottom: 0 }}>
-                  <label htmlFor="degree" style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-600)' }}>Degree Program</label>
-                  <select id="degree" value={formData.degree} onChange={handleChange}>
-                    <option value="B.Tech">B.Tech</option>
-                    <option value="M.Tech">M.Tech</option>
-                    <option value="B.Sc">B.Sc</option>
-                    <option value="M.Sc">M.Sc</option>
-                    <option value="BCA">BCA</option>
-                    <option value="MCA">MCA</option>
-                    <option value="B.E">B.E</option>
-                    <option value="MBA">MBA</option>
-                  </select>
+          <motion.div className="pred-form-card-epic" initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}}>
+            <div className="card-glow orange-glow-soft"></div>
+            <h3>
+              <div className="icon-wrap orange-wrap"><span className="material-symbols-outlined">radar</span></div>
+              Prediction Parameters
+            </h3>
+            
+            <form onSubmit={handleSubmit} noValidate className="epic-form">
+              <div className="form-grid-2 form-grid-spaced">
+                <div className="form-group mb-0">
+                  <label htmlFor="degree" className="form-label">Degree Sequence</label>
+                  <div className="select-wrapper">
+                    <select id="degree" value={formData.degree} onChange={handleChange} className="epic-input">
+                      <option value="B.Tech">B.Tech</option>
+                      <option value="M.Tech">M.Tech</option>
+                      <option value="B.Sc">B.Sc</option>
+                      <option value="M.Sc">M.Sc</option>
+                      <option value="BCA">BCA</option>
+                      <option value="MCA">MCA</option>
+                      <option value="B.E">B.E</option>
+                      <option value="MBA">MBA</option>
+                    </select>
+                    <span className="material-symbols-outlined dropdown-icon">expand_more</span>
+                  </div>
                 </div>
-                <div className="form-group" style={{ marginBottom: 0 }}>
-                  <label htmlFor="branch" style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-600)' }}>Branch</label>
-                  <select id="branch" value={formData.branch} onChange={handleChange}>
-                    <option value="">Select Branch</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="IT">Information Technology</option>
-                    <option value="ECE">Electronics & Communication</option>
-                    <option value="EE">Electrical Engineering</option>
-                    <option value="ME">Mechanical Engineering</option>
-                    <option value="Civil">Civil Engineering</option>
-                    <option value="Chemical">Chemical Engineering</option>
-                    <option value="AI/ML">AI / ML</option>
-                    <option value="Data Science">Data Science</option>
-                    <option value="Software Engineering">Software Engineering</option>
-                    <option value="BBA">BBA</option>
-                    <option value="Other">Other</option>
-                  </select>
+                <div className="form-group mb-0">
+                  <label htmlFor="branch" className="form-label">Core Branch</label>
+                  <div className="select-wrapper">
+                    <select id="branch" value={formData.branch} onChange={handleChange} className="epic-input">
+                      <option value="">Select Branch</option>
+                      <option value="Computer Science">Computer Science</option>
+                      <option value="IT">Information Technology</option>
+                      <option value="ECE">Electronics & Communication</option>
+                      <option value="EE">Electrical Engineering</option>
+                      <option value="ME">Mechanical Engineering</option>
+                      <option value="Civil">Civil Engineering</option>
+                      <option value="AI/ML">AI / ML</option>
+                      <option value="Data Science">Data Science</option>
+                    </select>
+                    <span className="material-symbols-outlined dropdown-icon">expand_more</span>
+                  </div>
                 </div>
               </div>
-              <div className="form-grid-2" style={{ marginBottom: '20px' }}>
-                <div className="form-group" style={{ marginBottom: 0 }}>
-                  <label htmlFor="gpa" style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-600)' }}>Current GPA</label>
-                  <input type="number" id="gpa" value={formData.gpa} onChange={handleChange} placeholder="e.g. 3.8" step="0.1" />
+              <div className="form-grid-2 form-grid-spaced">
+                <div className="form-group mb-0">
+                  <label htmlFor="gpa" className="form-label">Performance (GPA)</label>
+                  <input type="number" id="gpa" value={formData.gpa} onChange={handleChange} placeholder="e.g. 3.8" step="0.1" className="epic-input" />
                 </div>
-                <div className="form-group" style={{ marginBottom: 0 }}>
-                  <label htmlFor="specialization" style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-600)' }}>Specialization <span style={{ fontWeight: 400, color: 'var(--text-400)' }}>(optional)</span></label>
-                  <input type="text" id="specialization" value={formData.specialization} onChange={handleChange} placeholder="e.g. Cloud Computing" />
+                <div className="form-group mb-0">
+                  <label htmlFor="specialization" className="form-label">Specialization <span className="label-optional">(optional)</span></label>
+                  <input type="text" id="specialization" value={formData.specialization} onChange={handleChange} placeholder="e.g. Cloud Computing" className="epic-input" />
                 </div>
               </div>
               <div className="form-group">
-                <label htmlFor="skills" style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-600)' }}>Key Skills</label>
-                <input type="text" id="skills" value={formData.skills} onChange={handleChange} placeholder="Python, React, SQL..." />
+                <label htmlFor="skills" className="form-label">Skill Matrix (Comma separated)</label>
+                <input type="text" id="skills" value={formData.skills} onChange={handleChange} placeholder="Python, React, SQL..." className="epic-input" />
               </div>
-              <button type="submit" className="btn btn-primary btn-full">Predict Top Roles</button>
+              <button type="submit" className="btn btn-epic-primary btn-full" disabled={loading}>
+                {loading ? (
+                  <><span className="material-symbols-outlined spinner-icon">sync</span> Computing Trajectories...</>
+                ) : (
+                  <><span className="material-symbols-outlined">explore</span> Predict Top Roles</>
+                )}
+              </button>
             </form>
-          </div>
-
-          {loading && (
-            <div style={{ textAlign: 'center', padding: '40px' }}>
-              <div className="spinner"></div>
-              <p style={{ color: 'var(--text-500)', marginTop: '12px' }}>Analyzing your profile...</p>
-            </div>
-          )}
+          </motion.div>
 
           {results && (
-            <div id="resultsSection" style={{ marginTop: '24px' }}>
-              <h4 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-800)', marginBottom: '16px' }}>Results</h4>
+            <motion.div className="results-section-epic" variants={staggerVars} initial="hidden" animate="visible">
+              <h4 className="results-title-epic">Predicted Trajectories</h4>
               <div>
                 {results.predictions.map((p, i) => {
                   const icon = roleIcons[p.role] || 'work';
                   const cat = roleCats[p.role] || 'General';
                   const pct = Math.round(p.confidence);
                   const breakdown = p.education_score !== undefined
-                    ? `Education: ${Math.round(p.education_score)}% · Skills: ${Math.round(p.skills_score)}% · Resume: ${Math.round(p.resume_score)}% · Certs: ${Math.round(p.certifications_score)}%`
+                    ? `Edu: ${Math.round(p.education_score)}% · Skills: ${Math.round(p.skills_score)}% · Res: ${Math.round(p.resume_score)}% · Cert: ${Math.round(p.certifications_score)}%`
                     : '';
 
                   return (
-                    <div className="result-card" key={i}>
-                      <div className="result-card-inner">
-                        <div className="result-role-info">
-                          <div className="result-role-icon"><span className="material-symbols-outlined">{icon}</span></div>
+                    <motion.div className="result-card-epic" key={i} variants={resultVars} whileHover={{scale: 1.01}}>
+                      <div className="result-card-inner-epic">
+                        <div className="result-role-info-epic">
+                          <div className="result-role-icon-epic"><span className="material-symbols-outlined">{icon}</span></div>
                           <div>
-                            <div className="result-role-name">{p.role}</div>
-                            <div className="result-role-cat">{cat}</div>
+                            <div className="result-role-name-epic">{p.role}</div>
+                            <div className="result-role-cat-epic">{cat}</div>
                           </div>
                         </div>
-                        <div className="result-bar-container">
-                          <div className="result-bar">
-                            <div className="result-bar-fill" style={{ width: `${pct}%`, transition: 'width 1s ease-out' }}></div>
+                        <div className="result-bar-container-epic">
+                          <div className="result-bar-epic">
+                            <div className="result-bar-fill-epic" style={{ width: `${pct}%` }}></div>
                           </div>
-                          <span className="result-percent">{pct}%</span>
+                          <span className="result-percent-epic">{pct}%</span>
                         </div>
                       </div>
-                      {breakdown && <div style={{ padding: '4px 16px 12px', fontSize: '0.75rem', color: 'var(--text-400)' }}>{breakdown}</div>}
+                      {breakdown && <div className="result-breakdown-epic">{breakdown}</div>}
                       {p.explanations?.length > 0 && (
-                        <div style={{ padding: '0 16px 12px' }}>
+                        <div className="result-explanations-epic">
                           {p.explanations.map((exp, j) => (
-                            <div key={j} style={{ fontSize: '0.8rem', color: 'var(--text-500)', padding: '2px 0' }}>• {exp}</div>
+                            <div key={j} className="explanation-item-epic"><span className="material-symbols-outlined">check</span> {exp}</div>
                           ))}
                         </div>
                       )}
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
 
               {results.explanation?.length > 0 && (
-                <div className="explanation-card" style={{ marginTop: '24px' }}>
-                  <h3><span className="material-symbols-outlined" style={{ color: 'var(--primary)' }}>lightbulb</span> AI Explanation</h3>
-                  <ul className="explanation-list">
+                <motion.div className="explanation-card-epic" variants={resultVars}>
+                  <h3><span className="material-symbols-outlined icon-purple">psychology</span> AI Telemetry Analysis</h3>
+                  <ul className="explanation-list-epic">
                     {results.explanation.map((exp, i) => <li key={i}>{exp}</li>)}
                   </ul>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
           )}
         </div>
       </div>

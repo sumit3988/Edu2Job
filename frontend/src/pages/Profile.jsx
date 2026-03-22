@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '../components/Sidebar';
 import { getUser, apiGet, apiPost, updateStoredUser, getToken } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import './Profile.css';
 
 const API_BASE = 'http://localhost:5000';
@@ -12,14 +13,10 @@ const Profile = () => {
 
   const [userState, setUserState] = useState(null);
   const [formData, setFormData] = useState({
-    degree: '',
-    branch: '',
-    gpa: '',
-    specialization: '',
-    experience: '',
-    certifications: '',
-    skills: ''
+    degree: '', branch: '', gpa: '', specialization: '',
+    experience: '', certifications: '', skills: '', target_role: ''
   });
+  const [availableRoles, setAvailableRoles] = useState([]);
 
   const [skillsList, setSkillsList] = useState([]);
   const [skillInput, setSkillInput] = useState('');
@@ -43,9 +40,8 @@ const Profile = () => {
           u = res.user;
           localStorage.setItem('edu2job_user', JSON.stringify(u));
         }
-      } catch (err) {
-        console.warn('Could not fetch profile from server, using localStorage:', err);
-      }
+      } catch (err) {}
+      
       setUserState(u);
       setFormData({
         degree: u.degree || '',
@@ -54,11 +50,18 @@ const Profile = () => {
         specialization: u.specialization || '',
         experience: u.experience || '',
         certifications: u.certifications || '',
+        target_role: u.target_role || '',
       });
       if (u.skills) {
         const parsedSkills = u.skills.split(',').map(s => s.trim()).filter(Boolean);
         setSkillsList(parsedSkills);
       }
+
+      // Load available roles for target role dropdown
+      try {
+        const rolesRes = await apiGet('/skillgap/roles');
+        if (rolesRes.roles) setAvailableRoles(rolesRes.roles);
+      } catch (e) { /* silent */ }
     };
 
     loadProfile();
@@ -101,16 +104,15 @@ const Profile = () => {
       const res = await apiPost('/profile/update', data);
       if (res.message) {
         updateStoredUser(data);
-        showToast('Profile saved!', 'success');
+        showToast('Matrix Synchronized!', 'success');
       } else {
-        showToast(res.error || 'Update failed', 'error');
+        showToast(res.error || 'Sync failed', 'error');
       }
     } catch (err) {
       showToast(err.message, 'error');
     }
   };
 
-  // Resume Upload Handlers
   const handleZoneClick = () => fileInputRef.current.click();
   const handleDragOver = (e) => e.preventDefault();
   const handleDrop = (e) => {
@@ -143,7 +145,7 @@ const Profile = () => {
       setUploading(false);
 
       if (res.ok) {
-        showToast('Resume uploaded & parsed!', 'success');
+        showToast('Neural extraction complete!', 'success');
         if (parsedRes.parsed) {
           const p = parsedRes.parsed;
           setFormData(prev => ({
@@ -166,10 +168,10 @@ const Profile = () => {
             skills: (p.skills || []).join(','),
           });
           
-          showToast(`Extracted: ${p.skills ? p.skills.length : 0} skills, degree: ${p.degree || 'N/A'}`, 'success');
+          showToast(`Nodes extracted: ${p.skills ? p.skills.length : 0}`, 'success');
         }
       } else {
-        showToast(parsedRes.error || 'Upload failed', 'error');
+        showToast(parsedRes.error || 'Extraction failed', 'error');
       }
     } catch (err) {
       setUploading(false);
@@ -178,158 +180,189 @@ const Profile = () => {
     removeSelectedFile();
   };
 
+  const staggerVars = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
+  const cardVars = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 200 } }
+  };
+
   return (
     <div className="app-layout">
-      <Sidebar activePage="profile" variant="light" />
+      <Sidebar activePage="profile" />
 
       <div className="main-content">
         <header className="main-header">
-          <h2>Profile & Resume</h2>
+          <h2>Identity Matrix</h2>
           <div className="header-actions">
-            <button className="notification-btn">
+            <button className="notification-btn dark-btn">
               <span className="material-symbols-outlined">notifications</span>
               <span className="notification-dot"></span>
             </button>
+            <div className="header-avatar" id="headerAvatar"></div>
           </div>
         </header>
 
-        <div className="page-content">
+        <div className="page-content content-max-1400">
           {(error || success) && (
-             <div className={`toast toast-${error ? 'error' : 'success'}`} style={{ position: 'relative', top: 0, left: 0, right: 0, transform: 'none', marginBottom: '16px' }}>
+             <motion.div initial={{opacity:0, y:-10}} animate={{opacity:1, y:0}} className={`toast-epic toast-${error ? 'error' : 'success'}`}>
+               <span className="material-symbols-outlined">{error ? 'error' : 'check_circle'}</span>
                {error || success}
-             </div>
+             </motion.div>
           )}
 
-          <div style={{ marginBottom: '32px' }}>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text-900)', marginBottom: '4px' }}>Complete Your Profile</h3>
-            <p style={{ color: 'var(--text-500)' }}>Update your student information and upload your latest resume to get matched with top opportunities.</p>
-          </div>
+          <motion.div className="content-header-epic" initial={{opacity:0, y:-20}} animate={{opacity:1, y:0}}>
+            <h3 className="content-title-epic">Configure Your Identity</h3>
+            <p className="content-desc-epic">Feed your raw data into the system or let our AI instantly extract your career matrix from your uploaded resume. Accuracy yields precision.</p>
+          </motion.div>
 
-          <div className="profile-grid">
-            <div className="profile-card">
+          <motion.div className="profile-grid-epic" variants={staggerVars} initial="hidden" animate="visible">
+            
+            {/* Form Card */}
+            <motion.div className="profile-card-epic" variants={cardVars}>
+              <div className="card-glow blue-glow-soft"></div>
               <h4>
-                <span className="material-symbols-outlined">account_circle</span>
-                Student Information Form
+                <div className="icon-wrap blue-wrap"><span className="material-symbols-outlined">account_circle</span></div>
+                Base Parameters
               </h4>
-              <form onSubmit={handleSaveProfile} noValidate>
-                <div className="form-row" style={{ marginBottom: '20px' }}>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label htmlFor="degree">Degree Program</label>
-                    <select id="degree" value={formData.degree} onChange={handleChange}>
-                      <option value="">Select Degree</option>
-                      <option value="B.Tech">B.Tech</option>
-                      <option value="M.Tech">M.Tech</option>
-                      <option value="B.Sc">B.Sc</option>
-                      <option value="M.Sc">M.Sc</option>
-                      <option value="BCA">BCA</option>
-                      <option value="MCA">MCA</option>
-                      <option value="B.E">B.E</option>
-                      <option value="MBA">MBA</option>
-                    </select>
+              
+              <form onSubmit={handleSaveProfile} noValidate className="epic-form">
+                <div className="form-row form-row-spaced">
+                  <div className="form-group">
+                    <label htmlFor="degree">System Degree</label>
+                    <div className="select-wrapper">
+                      <select id="degree" value={formData.degree} onChange={handleChange} className="epic-input">
+                        <option value="">Select Degree</option>
+                        <option value="B.Tech">B.Tech</option>
+                        <option value="M.Tech">M.Tech</option>
+                        <option value="B.Sc">B.Sc</option>
+                        <option value="M.Sc">M.Sc</option>
+                        <option value="BCA">BCA</option>
+                        <option value="MCA">MCA</option>
+                        <option value="B.E">B.E</option>
+                        <option value="MBA">MBA</option>
+                      </select>
+                      <span className="material-symbols-outlined dropdown-icon">expand_more</span>
+                    </div>
                   </div>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label htmlFor="branch">Branch</label>
-                    <select id="branch" value={formData.branch} onChange={handleChange}>
-                      <option value="">Select Branch</option>
-                      <option value="Computer Science">Computer Science</option>
-                      <option value="IT">Information Technology</option>
-                      <option value="ECE">Electronics & Communication</option>
-                      <option value="EE">Electrical Engineering</option>
-                      <option value="ME">Mechanical Engineering</option>
-                      <option value="Civil">Civil Engineering</option>
-                      <option value="Chemical">Chemical Engineering</option>
-                      <option value="AI/ML">AI / ML</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="Software Engineering">Software Engineering</option>
-                      <option value="BBA">BBA</option>
-                      <option value="Other">Other</option>
-                    </select>
+                  <div className="form-group">
+                    <label htmlFor="branch">Core Branch</label>
+                    <div className="select-wrapper">
+                      <select id="branch" value={formData.branch} onChange={handleChange} className="epic-input">
+                        <option value="">Select Branch</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="ECE">Electronics & Communication</option>
+                        <option value="EE">Electrical Engineering</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="Civil">Civil Engineering</option>
+                        <option value="AI/ML">AI / ML</option>
+                        <option value="Data Science">Data Science</option>
+                      </select>
+                      <span className="material-symbols-outlined dropdown-icon">expand_more</span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="form-row" style={{ marginBottom: '20px' }}>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label htmlFor="gpa">Current GPA</label>
-                    <input type="number" id="gpa" value={formData.gpa} onChange={handleChange} placeholder="3.8" step="0.1" min="0" max="10" />
+                <div className="form-row form-row-spaced">
+                  <div className="form-group">
+                    <label htmlFor="gpa">Performance Index (GPA)</label>
+                    <input type="number" id="gpa" value={formData.gpa} onChange={handleChange} placeholder="e.g. 3.8" step="0.1" className="epic-input" />
                   </div>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label htmlFor="specialization">Specialization <span style={{ fontWeight: 400, color: 'var(--text-400)' }}>(optional)</span></label>
-                    <input type="text" id="specialization" value={formData.specialization} onChange={handleChange} placeholder="e.g. Cloud Computing" />
+                  <div className="form-group">
+                    <label htmlFor="specialization">Specialization <span className="label-optional">(optional)</span></label>
+                    <input type="text" id="specialization" value={formData.specialization} onChange={handleChange} placeholder="e.g. Neural Networks" className="epic-input" />
                   </div>
                 </div>
 
                 <div className="form-group">
-                  <label>Core Skills</label>
-                  <div className="skill-tags-wrapper">
+                  <label>Skill Nodes</label>
+                  <div className="skill-tags-wrapper-epic">
                     {skillsList.map((skill, index) => (
-                      <span key={index} className="skill-tag">
+                      <motion.span key={index} className="skill-tag-epic" initial={{scale:0.8, opacity:0}} animate={{scale:1, opacity:1}}>
                         {skill} <span className="material-symbols-outlined remove" onClick={() => removeSkill(skill)}>close</span>
-                      </span>
+                      </motion.span>
                     ))}
-                    <input type="text" value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={handleSkillKeyDown} placeholder="Type and press enter..." />
+                    <input type="text" value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={handleSkillKeyDown} placeholder="Initialize node..." className="epic-node-input" />
                   </div>
                 </div>
 
-                <div className="form-row" style={{ marginBottom: '20px' }}>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label htmlFor="experience">Years of Experience</label>
-                    <input type="number" id="experience" value={formData.experience} onChange={handleChange} placeholder="2" min="0" max="30" />
+                <div className="form-row form-row-spaced">
+                  <div className="form-group">
+                    <label htmlFor="experience">Cycles (Years Experience)</label>
+                    <input type="number" id="experience" value={formData.experience} onChange={handleChange} placeholder="2" min="0" className="epic-input" />
                   </div>
-                  <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label htmlFor="certifications">Certifications</label>
-                    <input type="text" id="certifications" value={formData.certifications} onChange={handleChange} placeholder="AWS Cloud, PMP..." />
+                  <div className="form-group">
+                    <label htmlFor="certifications">Active Certifications</label>
+                    <input type="text" id="certifications" value={formData.certifications} onChange={handleChange} placeholder="AWS Cloud, PMP..." className="epic-input" />
                   </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary">
-                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>save</span>
-                  Save Profile
+                <div className="form-group">
+                  <label htmlFor="target_role">Dream Job Role <span className="label-optional">(for Skill Gap)</span></label>
+                  <div className="select-wrapper">
+                    <select id="target_role" value={formData.target_role} onChange={handleChange} className="epic-input">
+                      <option value="">Select Target Role</option>
+                      {availableRoles.map(role => (
+                        <option key={role} value={role}>{role}</option>
+                      ))}
+                    </select>
+                    <span className="material-symbols-outlined dropdown-icon">expand_more</span>
+                  </div>
+                </div>
+
+                <button type="submit" className="btn btn-primary btn-epic">
+                  <span className="material-symbols-outlined">sync</span> Synchronize Matrix
                 </button>
               </form>
-            </div>
+            </motion.div>
 
-            <div className="profile-card" style={{ height: 'fit-content' }}>
+            {/* Resume Card */}
+            <motion.div className="profile-card-epic" variants={cardVars}>
+              <div className="card-glow purple-glow-soft"></div>
               <h4>
-                <span className="material-symbols-outlined">description</span>
-                Resume Upload
+                <div className="icon-wrap purple-wrap"><span className="material-symbols-outlined">memory</span></div>
+                Auto-Extraction
               </h4>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-500)', marginBottom: '24px' }}>
-                Upload your resume and we'll <strong style={{ color: 'var(--primary)' }}>auto-extract</strong> your skills, degree, GPA & experience.
+              <p className="upload-desc-epic">
+                Upload your raw resume file and let our AI parser instantly build your identity matrix.
               </p>
 
-              <div className="upload-zone" onClick={handleZoneClick} onDragOver={handleDragOver} onDrop={handleDrop}>
-                <div className="upload-icon-circle">
-                  <span className="material-symbols-outlined" style={{ fontSize: '1.875rem' }}>cloud_upload</span>
+              <div className="upload-zone-epic" onClick={handleZoneClick} onDragOver={handleDragOver} onDrop={handleDrop}>
+                <div className="upload-icon-circle-epic">
+                  <span className="material-symbols-outlined upload-icon-pulse">cloud_upload</span>
                 </div>
-                <h5>Click to upload or drag and drop</h5>
-                <p>PDF, DOCX, or DOC (Max. 5MB)</p>
-                <button type="button" className="btn btn-outline" style={{ fontSize: '0.85rem', padding: '8px 16px' }}>Browse Files</button>
-                <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".pdf,.doc,.docx,.txt" style={{ display: 'none' }} />
+                <h5>Initiate Uplink</h5>
+                <p>PDF, DOCX (Max 5MB)</p>
+                <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".pdf,.doc,.docx,.txt" className="hidden-input" />
               </div>
 
               {selectedFile && (
-                <>
-                  <div className="file-card" style={{ display: 'flex' }}>
+                <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}}>
+                  <div className="file-card-epic">
                     <div className="file-info">
-                      <div className="file-icon"><span className="material-symbols-outlined">picture_as_pdf</span></div>
+                      <div className="file-icon-epic"><span className="material-symbols-outlined">description</span></div>
                       <div>
-                        <p className="file-name">{selectedFile.name}</p>
-                        <p className="file-meta">{(selectedFile.size / (1024 * 1024)).toFixed(1)} MB • Selected</p>
+                        <p className="file-name-epic">{selectedFile.name}</p>
+                        <p className="file-meta-epic">{(selectedFile.size / (1024 * 1024)).toFixed(1)} MB</p>
                       </div>
                     </div>
-                    <button className="file-delete" onClick={removeSelectedFile}>
+                    <button className="file-delete-epic" onClick={removeSelectedFile}>
                       <span className="material-symbols-outlined">delete</span>
                     </button>
                   </div>
 
-                  <button type="button" className="btn btn-primary btn-full" onClick={handleFileUpload} disabled={uploading}>
-                    <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>upload_file</span>
-                    {uploading ? 'Uploading & Parsing...' : 'Upload Resume'}
+                  <button type="button" className="btn btn-epic-glow btn-full" onClick={handleFileUpload} disabled={uploading}>
+                    <span className="material-symbols-outlined">{uploading ? 'hourglass_empty' : 'rocket_launch'}</span>
+                    {uploading ? 'Running Parse Algorithm...' : 'Execute Extraction'}
                   </button>
-                </>
+                </motion.div>
               )}
-            </div>
-          </div>
+            </motion.div>
+
+          </motion.div>
         </div>
       </div>
     </div>
