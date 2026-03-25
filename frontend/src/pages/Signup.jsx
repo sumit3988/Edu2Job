@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiPost } from '../utils/api';
 import Navbar from '../components/Navbar';
+import { SvgAuthentication } from 'iblis-react-undraw';
 import './Signup.css';
 
 const Signup = () => {
@@ -50,59 +51,65 @@ const Signup = () => {
       <div className="bg-blob blob1"></div>
       <div className="bg-blob blob2"></div>
 
-      <div className="signup-card">
-        <h2>Create Account</h2>
-        <p className="subtitle">Start your career journey today</p>
+      <div className="signup-container">
+        <div className="signup-illustration">
+          <SvgAuthentication width="100%" height="auto" primaryColor="#7c3aed" />
+        </div>
 
-        {error && <div className="error-box">{error}</div>}
+        <div className="signup-card">
+          <h2>Create Account</h2>
+          <p className="subtitle">Start your career journey today</p>
 
-        <form onSubmit={handleSignup}>
-          <div className="input-group">
-            <span className="material-symbols-outlined">person</span>
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-          </div>
+          {error && <div className="error-box">{error}</div>}
 
-          <div className="input-group">
-            <span className="material-symbols-outlined">mail</span>
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+          <form onSubmit={handleSignup}>
+            <div className="input-group">
+              <span className="material-symbols-outlined">person</span>
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </div>
 
-          <div className="input-group">
-            <span className="material-symbols-outlined">lock</span>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+            <div className="input-group">
+              <span className="material-symbols-outlined">mail</span>
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-          <div className="input-group">
-            <span className="material-symbols-outlined">lock_reset</span>
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
+            <div className="input-group">
+              <span className="material-symbols-outlined">lock</span>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-          <button className="signup-btn">Create Account</button>
-        </form>
+            <div className="input-group">
+              <span className="material-symbols-outlined">lock_reset</span>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
 
-        <p className="bottom-text">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
+            <button className="signup-btn">Create Account</button>
+          </form>
+
+          <p className="bottom-text">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

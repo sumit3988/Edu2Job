@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { SvgAstronaut } from 'iblis-react-undraw';
 import './Home.css';
 
 const Home = () => {
@@ -62,6 +63,10 @@ const Home = () => {
                 <span className="material-symbols-outlined">rocket_launch</span>
               </Link>
             </div>
+          </div>
+          
+          <div className="hero-illustration">
+            <SvgAstronaut width="100%" height="auto" primaryColor="#00f5ff" />
           </div>
         </motion.section>
 

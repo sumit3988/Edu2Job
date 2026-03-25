@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import { getUser, apiGet } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { SvgDashboard } from 'iblis-react-undraw';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -79,14 +80,19 @@ const Dashboard = () => {
             <div className="hero-content">
               <h1>Welcome back, <span className="highlight-text">{user?.full_name?.split(' ')[0] || 'User'}</span></h1>
               <p>Your AI-powered career matrix is fully synchronized and ready.</p>
+              
+              <div className="hero-buttons">
+                <button className="btn btn-epic-primary" onClick={() => navigate('/prediction')}>
+                  <span className="material-symbols-outlined">explore</span> Start Prediction
+                </button>
+                <button className="btn btn-epic-glass" onClick={() => navigate('/interview')}>
+                  <span className="material-symbols-outlined">psychology</span> Take Mock Test
+                </button>
+              </div>
             </div>
-            <div className="hero-buttons">
-              <button className="btn btn-epic-primary" onClick={() => navigate('/prediction')}>
-                <span className="material-symbols-outlined">explore</span> Start Prediction
-              </button>
-              <button className="btn btn-epic-glass" onClick={() => navigate('/interview')}>
-                <span className="material-symbols-outlined">psychology</span> Take Mock Test
-              </button>
+            
+            <div className="hero-illustration-dash">
+              <SvgDashboard width="100%" height="auto" primaryColor="#7c3aed" />
             </div>
           </motion.div>
 

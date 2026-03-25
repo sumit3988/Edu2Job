@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import { getUser, apiPost } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+
 import './Prediction.css';
 
 const roleIcons = {
@@ -183,7 +184,9 @@ const Prediction = () => {
           )}
 
           <motion.div className="pred-form-card-epic" initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}}>
-            <div className="card-glow orange-glow-soft"></div>
+            <div className="ai-orb"></div>
+            <div className="ai-mesh-bg"></div>
+
             <div className="card-top-header">
               <h3>
                 <div className="icon-wrap orange-wrap"><span className="material-symbols-outlined">radar</span></div>

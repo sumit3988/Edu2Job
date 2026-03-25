@@ -16,6 +16,10 @@
   box-shadow: var(--shadow-md), var(--glass-glow);
   overflow: hidden;
   margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
 }
 
 .hero-glow-epic {
@@ -32,6 +36,22 @@
 .hero-content {
   position: relative;
   z-index: 10;
+  flex: 1;
+}
+
+.hero-illustration-dash {
+  flex: 1;
+  max-width: 320px;
+  position: relative;
+  z-index: 10;
+  animation: floatIllustration 6s infinite ease-in-out;
+  filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.2));
+}
+
+@keyframes floatIllustration {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
 }
 .dashboard-hero-epic h1 {
   font-size: 2.75rem;
@@ -58,6 +78,7 @@
   z-index: 10;
   display: flex;
   gap: 16px;
+  margin-top: 24px;
 }
 
 .btn-epic-primary {

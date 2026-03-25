@@ -72,15 +72,14 @@
   border: 1px solid var(--border);
   border-radius: 32px;
   padding: 120px 48px;
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  justify-content: space-between;
+  gap: 48px;
+  text-align: left;
 }
 
 .hero-dense::before {
@@ -92,9 +91,27 @@
 }
 
 .hero-content-wrapper {
-  max-width: 900px;
+  flex: 1;
+  max-width: 600px;
   position: relative;
   z-index: 10;
+}
+
+.hero-illustration {
+  flex: 1;
+  max-width: 500px;
+  animation: float 6s infinite ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.2));
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
 }
 
 .tech-badge {
@@ -129,13 +146,13 @@
 .hero-actions-dense { display: flex; gap: 20px; position: relative; z-index: 10; }
 
 .btn-epic-glow {
-  padding: 16px 32px; font-size: 1.15rem; font-weight: 800; border-radius: 100px;
-  background: var(--text-900); color: var(--bg-light) !important;
+  padding: 14px 28px; font-size: 1.05rem; font-weight: 700; border-radius: var(--radius-sm);
+  background: var(--text-900); color: var(--bg) !important;
   display: flex; align-items: center; gap: 12px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.2);
-  transition: all 0.3s ease; border: none; cursor: pointer; text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition); border: none; cursor: pointer; text-decoration: none;
 }
-.btn-epic-glow:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,0,0,0.4); }
+.btn-epic-glow:hover { transform: translateY(0) scale(0.99); box-shadow: var(--shadow); background: var(--text-800); }
 
 /* Bento Universe Grid */
 .bento-universe {
@@ -270,6 +287,10 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
+  .hero-dense { flex-direction: column; text-align: center; }
+  .hero-content-wrapper { max-width: 100%; margin-bottom: 32px; }
+  .hero-actions-dense { justify-content: center; }
+  .hero-illustration { max-width: 80%; }
   .hero-title-epic { font-size: 4.5rem; }
   .bento-universe { grid-template-columns: 1fr 1fr; }
   .cell-1, .cell-2, .cell-3, .cell-4 { grid-column: span 2; }
