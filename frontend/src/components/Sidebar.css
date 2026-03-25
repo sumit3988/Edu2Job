@@ -7,22 +7,22 @@
   height: 100%;
 }
 .sidebar.dark {
-  background: #09090b; /* Deep True Black */
+  background: var(--sidebar-dark);
   color: #cbd5e1;
-  border-right: 1px solid rgba(255, 255, 255, 0.08); 
+  border-right: 1px solid var(--sidebar-border); 
 }
 .sidebar.dark .sidebar-header {
   padding: 24px; display: flex;
   align-items: center; gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--sidebar-border);
 }
 .sidebar.dark .sidebar-header .icon-box {
   width: 32px; height: 32px;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  background: linear-gradient(135deg, var(--secondary), #8B4513);
   display: flex; align-items: center; justify-content: center;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(160, 120, 85, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.2);
 }
 .sidebar.dark .sidebar-header h1 {
   font-size: 1.25rem; font-weight: 700;
@@ -42,18 +42,18 @@
   transform: translateX(4px);
 }
 .sidebar.dark .nav-item.active {
-  background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), transparent);
+  background: linear-gradient(90deg, var(--primary-light), transparent);
   color: #fff;
-  border-left: 3px solid var(--primary);
+  border-left: 3px solid var(--secondary);
 }
 .sidebar.dark .nav-item .material-symbols-outlined {
   color: var(--text-400); font-size: 1.25rem;
 }
 .sidebar.dark .nav-item.active .material-symbols-outlined,
-.sidebar.dark .nav-item:hover .material-symbols-outlined { color: var(--primary); }
+.sidebar.dark .nav-item:hover .material-symbols-outlined { color: var(--secondary); }
 
 .sidebar.dark .sidebar-footer {
-  padding: 16px; border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px; border-top: 1px solid var(--sidebar-border);
 }
 
 .user-card-nav {
@@ -64,10 +64,11 @@
 }
 .user-avatar {
   width: 40px; height: 40px; border-radius: 50%;
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  background: linear-gradient(135deg, var(--secondary), #8B4513);
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 1rem; color: #ffffff;
   flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 .user-card-info {
   flex: 1; overflow: hidden;

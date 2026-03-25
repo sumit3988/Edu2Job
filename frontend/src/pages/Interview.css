@@ -44,10 +44,16 @@
 }
 
 /* Empty state */
+.interview-page-epic {
+  min-height: 100vh;
+  padding: 40px;
+  background: transparent;
+  font-family: var(--font);
+}
 .empty-state-interview {
   text-align: center;
   padding: 60px 30px;
-  background: var(--surface);
+  background: transparent;
   border: 1px dashed var(--border);
   border-radius: 16px;
   margin-top: 16px;
@@ -98,7 +104,7 @@
   height: 100px;
   border-radius: 50%;
   filter: blur(40px);
-  opacity: 0.4;
+  opacity: 0.2;
 }
 .subject-header-epic {
   display: flex;
@@ -113,7 +119,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid;
+  border: 1px solid var(--border-bronze);
+  background: var(--secondary-light);
+  color: var(--secondary);
   flex-shrink: 0;
 }
 .subject-icon-box-epic .material-symbols-outlined {
@@ -151,7 +159,7 @@ h3.subject-title-epic {
   gap: 6px;
   padding: 10px 22px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  background: linear-gradient(135deg, var(--secondary), #8B4513);
   color: #fff;
   font-size: 0.88rem;
   font-weight: 600;

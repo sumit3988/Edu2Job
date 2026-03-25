@@ -42,20 +42,23 @@
 }
 .aurora-1 {
   width: 80vw; height: 80vw;
-  background: #4F46E5;
+  background: var(--secondary);
   top: -20%; left: -20%;
+  opacity: 0.08;
 }
 .aurora-2 {
   width: 60vw; height: 60vw;
-  background: #9333EA;
+  background: var(--primary);
   bottom: -10%; right: -20%;
   animation-delay: -5s;
+  opacity: 0.12;
 }
 .aurora-3 {
   width: 50vw; height: 50vw;
-  background: #059669;
+  background: var(--accent-bronze);
   top: 40%; left: 30%;
   animation-delay: -10s;
+  opacity: 0.06;
 }
 
 @keyframes aurora-move {
@@ -65,8 +68,8 @@
 
 /* Hero Section */
 .hero-dense {
-  background: rgba(20, 20, 25, 0.4);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 32px;
   padding: 120px 48px;
   backdrop-filter: blur(40px);
@@ -111,13 +114,13 @@
   box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
 }
 
-.ping-dot { width: 8px; height: 8px; background: #34D399; border-radius: 50%; box-shadow: 0 0 10px #34D399; animation: pulseDot 2s infinite; }
+.ping-dot { width: 8px; height: 8px; background: var(--emerald-600); border-radius: 50%; box-shadow: 0 0 10px var(--emerald-600); animation: pulseDot 2s infinite; }
 @keyframes pulseDot { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
 
 .hero-title-epic { font-size: 5rem; font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 24px; position:relative; z-index: 10; color: var(--text-900); }
 .static-text { display: block; color: var(--text-900); }
 .typed-gradient {
-  background: linear-gradient(to right, #60A5FA, #A78BFA, #F472B6);
+  background: linear-gradient(to right, var(--text-900), var(--secondary), #CD7F32);
   background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding-right: 10px;
 }
 
@@ -143,8 +146,8 @@
 }
 
 .bento-cell {
-  background: rgba(20, 20, 25, 0.6);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--card-bg, var(--surface));
+  border: 1px solid var(--border);
   border-radius: 32px;
   position: relative;
   overflow: hidden;
@@ -176,10 +179,10 @@
 }
 .bento-cell:hover .bento-glow { opacity: 0.25; }
 
-.bg-blue { background: radial-gradient(circle at bottom right, #3B82F6, transparent 70%); }
-.bg-purple { background: radial-gradient(circle at bottom left, #A855F7, transparent 70%); }
-.bg-emerald { background: radial-gradient(circle at top right, #10B981, transparent 70%); }
-.bg-orange { background: radial-gradient(circle at center, #F97316, transparent 70%); }
+.bg-blue { background: radial-gradient(circle at bottom right, var(--primary), transparent 70%); }
+.bg-purple { background: radial-gradient(circle at bottom left, var(--secondary), transparent 70%); }
+.bg-emerald { background: radial-gradient(circle at top right, var(--emerald-600), transparent 70%); }
+.bg-orange { background: radial-gradient(circle at center, var(--amber-600), transparent 70%); }
 
 .icon-epic {
   font-size: 3.5rem;
@@ -239,7 +242,7 @@
 }
 .mock-line {
   height: 10px;
-  background: linear-gradient(90deg, #6366F1, #A855F7);
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   border-radius: 5px;
   margin-bottom: 16px;
   opacity: 0.9;

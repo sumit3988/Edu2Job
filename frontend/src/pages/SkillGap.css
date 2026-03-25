@@ -39,7 +39,7 @@
   transition: border-color 0.2s;
 }
 .role-select:focus {
-  border-color: var(--primary);
+  border-color: var(--secondary);
   outline: none;
   box-shadow: 0 0 0 3px var(--primary-ring);
 }
@@ -84,13 +84,13 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: rgba(251,191,36,0.08);
-  border: 1px solid rgba(251,191,36,0.2);
+  background: var(--secondary-light);
+  border: 1px solid var(--border-bronze);
   border-radius: 12px;
   margin-bottom: 20px;
 }
 .warning-card .material-symbols-outlined {
-  color: #FBBf24;
+  color: var(--amber-600);
   font-size: 1.3rem;
 }
 .warning-card p {
@@ -135,10 +135,11 @@
 }
 .ring-fill {
   fill: none;
-  stroke: var(--primary);
+  stroke: var(--secondary);
   stroke-width: 10;
   stroke-linecap: round;
   transition: stroke-dasharray 0.8s ease;
+  filter: drop-shadow(0 0 5px rgba(160, 120, 85, 0.3));
 }
 .match-pct {
   position: absolute;
@@ -172,8 +173,8 @@
 .stat-item .material-symbols-outlined {
   font-size: 1.5rem;
 }
-.stat-green .material-symbols-outlined { color: var(--green-500); }
-.stat-red .material-symbols-outlined { color: var(--red-500); }
+.stat-green .material-symbols-outlined { color: var(--emerald-600); }
+.stat-red .material-symbols-outlined { color: var(--rose-600); }
 .stat-item strong {
   display: block;
   font-size: 1.3rem;
@@ -202,9 +203,9 @@
   color: var(--text-900);
   margin-bottom: 16px;
 }
-.icon-green { color: var(--green-500); }
-.icon-red { color: var(--red-500); }
-.icon-purple { color: var(--purple-600); }
+.icon-green { color: var(--emerald-600); }
+.icon-red { color: var(--rose-600); }
+.icon-purple { color: var(--secondary); }
 
 .skill-tags-display {
   display: flex;
@@ -218,14 +219,14 @@
   font-weight: 500;
 }
 .skill-badge-green {
-  background: rgba(34,197,94,0.12);
-  color: var(--green-500);
-  border: 1px solid rgba(34,197,94,0.25);
+  background: var(--emerald-50);
+  color: var(--emerald-600);
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 .skill-badge-red {
-  background: rgba(239,68,68,0.1);
-  color: var(--red-500);
-  border: 1px solid rgba(239,68,68,0.2);
+  background: var(--rose-50);
+  color: var(--rose-600);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* Learning Section */
@@ -261,7 +262,7 @@
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 12px;
-  color: var(--primary);
+  color: var(--secondary);
 }
 .learning-card ul {
   list-style: none;

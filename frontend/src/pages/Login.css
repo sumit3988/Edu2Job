@@ -30,7 +30,7 @@
 .blob2 {
   bottom: -100px;
   right: -100px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.25), transparent 70%);
+  background: radial-gradient(circle, var(--secondary-light), transparent 70%);
 }
 
 /* CARD */
@@ -41,10 +41,11 @@
   padding: 48px 40px;
   border-radius: 24px;
   background: var(--surface);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(40px) saturate(140%);
+  -webkit-backdrop-filter: blur(40px) saturate(140%);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.05);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md), var(--glass-glow);
   text-align: center;
   animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -112,12 +113,12 @@
   font-size: 1.1rem;
   border-radius: 100px;
   border: none;
-  background: var(--text-900);
-  color: var(--bg-light) !important;
+  background: linear-gradient(135deg, var(--secondary), #8B4513);
+  color: #fff !important;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(160, 120, 85, 0.2);
 }
 
 .login-btn:hover {

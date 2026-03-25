@@ -14,8 +14,8 @@
   margin-bottom: 48px;
   overflow: hidden;
 }
-.orange-glow-soft { background: #F97316; opacity: 0.1 !important; }
-.orange-wrap { background: rgba(249, 115, 22, 0.15) !important; color: #F97316 !important; }
+.orange-glow-soft { background: var(--secondary); opacity: 0.1 !important; }
+.orange-wrap { background: var(--secondary-light) !important; color: var(--secondary) !important; border: 1px solid var(--border-bronze); }
 
 .pred-form-card-epic h3 {
   position: relative; z-index: 10;
@@ -65,14 +65,23 @@
 .result-bar-container-epic {
   display: flex; align-items: center; gap: 20px; flex: 1; min-width: 200px;
 }
+.prediction-page-epic {
+  min-height: 100vh;
+  padding: 40px;
+  background: transparent;
+  font-family: var(--font);
+  position: relative;
+  overflow: hidden;
+}
 .result-bar-epic {
   flex: 1; height: 12px; background: var(--border);
   border-radius: 100px; overflow: hidden;
 }
 .result-bar-fill-epic {
   height: 100%; border-radius: 100px;
-  background: linear-gradient(90deg, #3B82F6, #8B5CF6, #F43F5E);
+  background: linear-gradient(90deg, var(--secondary), var(--accent-bronze));
   background-size: 200% 100%; animation: gradientMove 3s linear infinite;
+  box-shadow: 0 0 10px rgba(160, 120, 85, 0.3);
 }
 @keyframes gradientMove { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
 
@@ -88,7 +97,7 @@
   font-size: 0.95rem; color: var(--text-700); padding: 6px 0;
   display: flex; gap: 10px; align-items: flex-start;
 }
-.explanation-item-epic .material-symbols-outlined { color: #10B981; font-size: 1.2rem; }
+.explanation-item-epic .material-symbols-outlined { color: var(--emerald-600); font-size: 1.2rem; }
 
 /* AI Telemetry */
 .explanation-card-epic {
@@ -99,13 +108,13 @@
   font-size: 1.25rem; font-weight: 800; color: var(--text-900);
   margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
 }
-.icon-purple { color: #A855F7; }
+.icon-purple { color: var(--secondary); }
 .explanation-list-epic { list-style: none; padding: 0; }
 .explanation-list-epic li {
   font-size: 1rem; color: var(--text-800); margin-bottom: 12px;
   line-height: 1.6; display: flex; align-items: flex-start; gap: 12px;
 }
-.explanation-list-epic li::before { content: '►'; color: var(--primary); font-size: 0.8rem; margin-top: 4px; }
+.explanation-list-epic li::before { content: '►'; color: var(--secondary); font-size: 0.8rem; margin-top: 4px; }
 
 .card-top-header {
   display: flex;
@@ -137,7 +146,7 @@
   background: var(--primary);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 .sync-btn span { font-size: 1.1rem; }
