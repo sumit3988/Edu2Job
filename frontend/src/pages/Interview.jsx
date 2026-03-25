@@ -81,6 +81,30 @@ const Interview = () => {
             <motion.p className="page-subtitle-epic" variants={itemVars}>
               Select your department and test your knowledge with subject-specific quizzes. Scores are saved to your profile.
             </motion.p>
+            
+            {/* New Gamification / Mock Interview Banner */}
+            <motion.div className="mock-interview-banner-epic" variants={itemVars} style={{
+              background: 'linear-gradient(135deg, var(--primary), #9333EA)',
+              padding: '24px 32px',
+              borderRadius: '24px',
+              color: 'white',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '32px',
+              boxShadow: '0 10px 30px rgba(108, 99, 255, 0.3)'
+            }}>
+              <div>
+                <h3 style={{ fontSize: '1.5rem', margin: '0 0 8px 0', fontWeight: '800' }}>Realistic AI Mock Interview</h3>
+                <p style={{ margin: 0, opacity: 0.9 }}>Practice speaking your answers with our interactive AI human avatar and earn points!</p>
+              </div>
+              <Link to={`/mock-interview?subject=${selectedBranch || 'python'}`} className="btn" style={{
+                background: 'white', color: 'var(--primary)', fontWeight: '800', padding: '12px 24px', borderRadius: '100px', textDecoration: 'none'
+              }}>
+                <span className="material-symbols-outlined" style={{ verticalAlign: 'middle', marginRight: '8px' }}>record_voice_over</span>
+                Start Mock Interview
+              </Link>
+            </motion.div>
 
             {/* Branch Selector */}
             <motion.div className="branch-selector-section" variants={itemVars}>

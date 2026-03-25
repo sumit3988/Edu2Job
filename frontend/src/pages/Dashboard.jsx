@@ -3,7 +3,6 @@ import Sidebar from '../components/Sidebar';
 import { getUser, apiGet } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { SvgDashboard } from 'iblis-react-undraw';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -13,6 +12,7 @@ const Dashboard = () => {
   const [resumeStatus, setResumeStatus] = useState('Pending');
   const [predictions, setPredictions] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
+  const [gamification, setGamification] = useState({ points: 0, streak: 0, title: 'Beginner' });
 
   useEffect(() => {
     if (!user) {
@@ -38,6 +38,11 @@ const Dashboard = () => {
       try {
         const quizRes = await apiGet('/quiz/scores');
         if (quizRes?.scores?.length > 0) setQuizzes(quizRes.scores);
+      } catch {}
+
+      try {
+        const gamificationRes = await apiGet('/gamification/status');
+        if (gamificationRes && gamificationRes.title) setGamification(gamificationRes);
       } catch {}
     };
 
@@ -81,18 +86,25 @@ const Dashboard = () => {
               <h1>Welcome back, <span className="highlight-text">{user?.full_name?.split(' ')[0] || 'User'}</span></h1>
               <p>Your AI-powered career matrix is fully synchronized and ready.</p>
               
-              <div className="hero-buttons">
-                <button className="btn btn-epic-primary" onClick={() => navigate('/prediction')}>
-                  <span className="material-symbols-outlined">explore</span> Start Prediction
-                </button>
-                <button className="btn btn-epic-glass" onClick={() => navigate('/interview')}>
-                  <span className="material-symbols-outlined">psychology</span> Take Mock Test
-                </button>
+              <div className="gamification-badges-epic" style={{ marginTop: '16px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <span className="badge" style={{ background: 'rgba(255,255,255,0.15)', padding: '8px 16px', borderRadius: '100px', fontWeight: '800', color: 'white', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(10px)' }}>
+                  🏆 Title: {gamification.title}
+                </span>
+                <span className="badge" style={{ background: 'rgba(255,255,255,0.15)', padding: '8px 16px', borderRadius: '100px', fontWeight: '800', color: 'white', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(10px)' }}>
+                  ⭐ {gamification.points} Points
+                </span>
+                <span className="badge" style={{ background: 'rgba(255,255,255,0.15)', padding: '8px 16px', borderRadius: '100px', fontWeight: '800', color: 'white', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(10px)' }}>
+                  🔥 {gamification.streak} Day Streak
+                </span>
               </div>
             </div>
-            
-            <div className="hero-illustration-dash">
-              <SvgDashboard width="100%" height="auto" primaryColor="#7c3aed" />
+            <div className="hero-buttons">
+              <button className="btn btn-epic-primary" onClick={() => navigate('/prediction')}>
+                <span className="material-symbols-outlined">explore</span> Start Prediction
+              </button>
+              <button className="btn btn-epic-glass" onClick={() => navigate('/interview')}>
+                <span className="material-symbols-outlined">psychology</span> Take Mock Test
+              </button>
             </div>
           </motion.div>
 

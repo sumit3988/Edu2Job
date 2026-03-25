@@ -12,6 +12,7 @@ import Prediction from './pages/Prediction';
 import SkillGap from './pages/SkillGap';
 import Interview from './pages/Interview';
 import Quiz from './pages/Quiz';
+import MockInterview from './pages/MockInterview';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/skillgap" element={<SkillGap />} />
         <Route path="/interview" element={<Interview />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/mock-interview" element={<MockInterview />} />
 
         {/* Catch-all redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />
